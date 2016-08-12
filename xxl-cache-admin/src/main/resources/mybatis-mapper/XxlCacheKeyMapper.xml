@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="XxlCacheKeyMapper">
+	
+	<resultMap id="XxlCacheKey" type="com.xxl.cache.core.model.XxlCacheKey" >
+		<result column="id" property="id" />
+		<result column="key" property="key" />
+		<result column="intro" property="intro" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		t.id,
+		t.`key`,
+		t.`intro`
+	</sql>
+	
+	<select id="pageList" parameterType="java.util.Map" resultMap="XxlCacheKey">
+		SELECT <include refid="Base_Column_List" />
+		FROM XXL_CACHE_KEY AS t
+		<trim prefix="WHERE" prefixOverrides="AND | OR" >
+			<if test="key != null and key != ''">
+				AND t.key = #{key}
+			</if>
+		</trim>
+		ORDER BY id DESC
+		LIMIT #{offset}, #{pagesize}
+	</select>
+	
+	<select id="pageListCount" parameterType="java.util.Map" resultType="int">
+		SELECT count(1)
+		FROM XXL_CACHE_KEY AS t
+		<trim prefix="WHERE" prefixOverrides="AND | OR" >
+			<if test="key != null and key != ''">
+				AND t.key = #{key}
+			</if>
+		</trim>
+	</select>
+	
+	<insert id="save" parameterType="com.xxl.cache.core.model.XxlCacheKey" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO XXL_CACHE_KEY (
+			`key`,
+			`intro`
+		) VALUES (
+			#{key},
+			#{intro}
+		)
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id"> 
+			SELECT LAST_INSERT_ID() 
+		</selectKey> 
+	</insert>
+	
+	<update id="update" parameterType="com.xxl.cache.core.model.XxlCacheKey" >
+		UPDATE XXL_CACHE_KEY
+		SET	`key` = #{key},
+		  	intro = #{intro}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE
+		FROM XXL_CACHE_KEY
+		WHERE id = #{id}
+	</delete>
+
+	<select id="load" parameterType="java.lang.Integer" resultMap="XxlCacheKey">
+		SELECT <include refid="Base_Column_List" />
+		FROM XXL_CACHE_KEY AS t
+		WHERE t.id = #{id}
+	</select>
+
+</mapper>
