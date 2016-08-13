@@ -1,6 +1,5 @@
-package com.xxl.cache.core.util.cache.redis;
+package com.xxl.cache.core.util;
 
-import com.xxl.cache.core.util.PropertiesUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import redis.clients.jedis.JedisPoolConfig;

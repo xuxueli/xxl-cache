@@ -18,7 +18,4 @@ public interface IXxlCacheKeyService {
 
     public ReturnT<String> delete(int id);
 
-    public ReturnT<Map<String, Object>> getCacheInfo(String finalKey);
-
-    public ReturnT<String> removeCache(String finalKey);
 }
