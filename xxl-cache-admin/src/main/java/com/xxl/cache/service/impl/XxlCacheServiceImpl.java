@@ -11,6 +11,11 @@ import java.util.Properties;
 import static com.xxl.cache.core.util.PropertiesUtil.DEFAULT_CONFIG;
 
 /**
+ * 推荐将缓存Service抽象成公共RPC服务, 有以下好处:
+ *      1、统一监控和维护缓存服务;
+ *      2、方便控制client连接数量;
+ *      3、缓存节点变更更加方便;
+ *      4、在节点变更时, 缓存分片很大可能会受影响, 这将导致不同服务的分片逻辑出现不一致的情况, 统一缓存服务可以避免之;
  * Created by xuxueli on 16/8/13.
  */
 @Service

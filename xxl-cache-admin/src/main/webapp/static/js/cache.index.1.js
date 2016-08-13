@@ -123,10 +123,10 @@ $(function() {
         }, 
         messages : {
 			key : {
-            	required :"请输入“缓存Key”"
+            	required :"请输入“缓存模板”"
             },
 			intro : {
-            	required :"请输入“简介””"
+            	required :"请输入“缓存简介””"
             }
         },
 		highlight : function(element) {  
@@ -190,10 +190,10 @@ $(function() {
 		},
 		messages : {
 			key : {
-				required :"请输入“缓存Key”"
+				required :"请输入“缓存模板”"
 			},
 			intro : {
-				required :"请输入“简介”"
+				required :"请输入“缓存简介”"
 			}
 		},
 		highlight : function(element) {

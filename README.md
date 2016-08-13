@@ -1,35 +1,121 @@
 # 《分布式缓存管理平台XXL-CACHE》
+## 一、简介
 
+#### 1.1 概述
+XXL-CACHE是一个分布式缓存管理平台，其核心设计目标是“让分布式缓存的接入和管理的更加的简洁和高效”。现已开放源代码，开箱即用。
 
-##### 项目拆分
-- xxl-cache-admin   : 缓存管理中心,维护缓存Key,缓存模板(xxxx{0}xxxx{1}),缓存内容,包括: 新增、删除、清除内容;
-- xxl-cache-service : 缓存的RPC服务 ,统一线上缓存API操作流程,如:Set、Get、Remove等操作; (热点模式:只有一个线程,异步更新缓存)
-- xxl-cache-core    : 公共依赖,接入xxl-cache的项目依赖该JAR即可使用xxl-cache;
-- xxl-cache-examples: 接入xxl-cache的Demo项目,可以参考该项目接入xxl-cache
+#### 1.2 特性
+- 1、多种缓存支持：支持Redis、Memcached两种缓存在线的查询和管理；
+- 2、分布式缓存管理：支持分布式环境下，集群缓存服务的查询和管理，自动命中缓存服务节点；
+- 3、方便：支持通过Web界管理缓存模板，查询和管理缓存数据；
+- 4、透明：集群节点变动时，缓存命中的分片逻辑保持线上一致，自动命中缓存数据；
+- 5、查看序列化缓存数据：通常缓存中保存的是序列化的Java数据，因此当需要查看缓存键值数据非常麻烦，本系统支持方便的查看缓存数据内容，反序列化数据；
+- 6、查看缓存数据长度：直观显示缓存数据的长度；
+- 7、查看缓存JSON格式内容：支持将缓存数据转换成JSON格式，直观查看缓存数据内容；
 
-概念:
-- 缓存Key: xxl-cache中每个缓存的唯一标示,必须通过该Key才允许操作缓存,负责服务端拒绝服务;
+#### 1.3 下载
+源码地址 (将会在两个git仓库同步发布最新代码)
+- [github地址](https://github.com/xuxueli/xxl-cache)
 
-缓存Key一般是一个模板,通过不同参数最终组合成不同的缓存Final Key,每个缓存,包括属性为:
-1、缓存Key: 如 "product.num"
-2、缓存模板: 如 "id{}city{}"
-3、失效时间: 2H;
-4、避免缓存雪崩: 存储一个永久的数据副本,当缓存失效时,只有第一个线程会获取空值,其余线程会取到副本数据; 只有第一个线程去异步更新缓存;
-5、描述;
+博客地址
+- [oschina地址](http://my.oschina.net/xuxueli/blog/732279)
 
-FinalKey存储格式: {分组}_{模板xxx{0}xxx{1}xxx}_${版本}
-MCacheKey mkey = new MCacheKey("group{0}{1}", ...);
+技术交流群(仅作技术交流)：367260654    [![image](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=4686e3fe01118445c75673a66b4cc6b2c7ce0641528205b6f403c179062b0a52 )
 
+#### 1.4 环境
+- Maven3+
+- Jdk1.7+
+- Tomcat7+
+- Mysql5.5+
 
+## 二、快速入门
 
-查询:类型、长度、值
+#### 2.1 初始化“数据库”
+请下载项目源码并解压，获取 "调度数据库初始化SQL脚本"(脚本文件为: 源码解压根目录/xxl-cache/db/xxl-cache-mysql.sql) 并执行即可。
 
-##### 汇总
- * ehcache 进程缓存, 虽然目前ehcache提供集群方案，但是分布式缓存还是使用memcached/redis比较好;
- * memcached(Xmemcached、spymemcached、memcached-java-client) 分布式缓存, 分布是通常通过分片方式实现, 多核, 数据结构单一, key250k和value1M容量首限;
- * redis(jedis) 分布式缓存, 单核, 支持数据结构丰富, key和value512M容量巨大;
- * mongodb Nosql, 非关系型数据库(平级于mysql)，存储海量数据;
- * <p/>
- * ehcache本地对象缓存：EhcacheUtil (ehcacheObj)
- * ehcache页面缓存：SimplePageCachingFilter (ehcacheUrl)
- 
+#### 2.2 编译源码
+解压源码,按照maven格式将源码导入IDE, 使用maven进行编译即可，源码结构如下图所示：
+
+![输入图片说明](https://static.oschina.net/uploads/img/201608/13220029_a3Li.png "在这里输入图片标题")
+
+    - xxl-cache-admin：缓存管理平台
+
+#### 2.3 配置部署“缓存管理平台”
+    项目：xxl-cache-admin
+    作用：查询和管理线上分布式缓存数据
+
+- **A：配置“JDBC链接”**：请在下图所示位置配置jdbc链接地址，链接地址请保持和 2.1章节 所创建的调度数据库的地址一致。
+
+![输入图片说明](https://static.oschina.net/uploads/img/201608/13220737_xPiR.png "在这里输入图片标题")
+
+- **B：配置“分布式缓存配置”**：请在下图所示位置配置分布树缓存信息，和线上项目中缓存配置务必保持一致。
+
+![输入图片说明](https://static.oschina.net/uploads/img/201608/13221035_4csT.png "在这里输入图片标题")
+
+配置详解：
+
+    # 缓存类型, 取值范围: Memcached, Redis；（如配置Redis，则Redis地址生效，Memcached配置则被忽略，可删除）
+    cache.type=Redis
+
+    # redis集群地址配置, 多个地址用逗号分隔（当cache.type为Redis时生效）
+    sharded.jedis.address=192.168.56.101:6379
+
+    # memcached集群地址配置, 多个地址用逗号分隔（当cache.type为Memcached时生效）
+    xmemcached.address=192.168.56.101:11211
+
+    # for login （登录账号）
+    login.username=admin
+    login.password=123456
+
+#### 2.4 查询线上缓存
+
+进入“缓存管理”界面，点击“新增缓存模板界面”，配置模板信息
+![输入图片说明](https://static.oschina.net/uploads/img/201608/13225107_3uNc.png "在这里输入图片标题")
+
+然后，点击缓存模板右侧的“缓存管理”按钮 
+![输入图片说明](https://static.oschina.net/uploads/img/201608/13225300_aDwT.png "在这里输入图片标题")
+
+点击按钮“生成FinalKey”（如果模板中存在占位符，将会被缓存参数替换，生成最终的缓存Key）
+![输入图片说明](https://static.oschina.net/uploads/img/201608/13225420_fNSM.png "在这里输入图片标题")
+
+Set缓存数据，代码如下
+![输入图片说明](https://static.oschina.net/uploads/img/201608/13230041_GwE5.png "在这里输入图片标题")
+
+点击“查询缓存”，即可直观查看缓存信息
+![输入图片说明](https://static.oschina.net/uploads/img/201608/13225859_dssx.png "在这里输入图片标题")
+
+## 二、缓存模板详解
+#### 3.1 XXl-CACHE系统中常用名词（缓存属性）解释
+
+    缓存模板：生成缓存Key的模板，占位符用{0}、{1}、{2}依次替代；
+    缓存描述：缓存的描述说明；
+    缓存参数：“缓存模板”中占位符对应的参数，多个参数逗号分隔,依次替换占位符{0}、{1}、{2}的位置；
+    FinalKey：保存在分布式缓存服务中最终的Key的值，根据“缓存模板”和“缓存参数”生成；
+   
+## 四、缓存管理
+略
+
+## 五、总体设计
+#### 5.1 源码目录介绍
+    - /db :“数据库”建表脚本
+    - /xxl-cache-admin :缓存管理平台，项目源码；
+    - /xxl-cache-core : 公共依赖；（规划中）
+    - /xxl-cache-service: 公共的缓存RPC服务；（规划中）
+
+#### 5.2 核心思想
+
+XXL-CACHE核心思想：
+
+- 1、将分布式缓存抽象成公共统一的服务，对外提供公共API进行缓存操作：接入更加方便和高效，接入方依赖一个RPC服务即可；
+- 2、提供缓存管理和监控平台：方便的查询、管理和监控线上缓存数据；
+
+#### 规划中
+- 1、抽象缓存RPC服务，对外提供统一API接口，统一提供缓存服务；
+
+## 七、其他
+
+#### 7.1 报告问题
+XXL-CACHE托管在Github上，如有问题可在 [ISSUES](https://github.com/xuxueli/xxl-cache/issues) 上提问，也可以加入技术交流群(仅作技术交流)：367260654
+
+#### 7.2 接入登记
+更多接入公司，欢迎在github [登记](https://github.com/xuxueli/xxl-cache/issues/1 )

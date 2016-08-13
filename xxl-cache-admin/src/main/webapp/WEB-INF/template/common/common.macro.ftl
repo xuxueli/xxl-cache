@@ -99,8 +99,8 @@
 			<b>Version</b> 1.4
 		</div>-->
 		<strong>Copyright &copy; 2015-${.now?string('yyyy')} &nbsp;
-			<#--<a href="https://github.com/xuxueli/xxl-job" target="_blank" >github</a>&nbsp;
-			<a href="http://my.oschina.net/xuxueli/blog/690978" target="_blank" >oschina</a>-->
+			<a href="https://github.com/xuxueli/xxl-cache" target="_blank" >github</a>&nbsp;
+			<a href="http://my.oschina.net/xuxueli/blog/732279" target="_blank" >oschina</a>
 		</strong><!-- All rights reserved. -->
 	</footer>
 </#macro>

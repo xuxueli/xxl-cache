@@ -8,6 +8,7 @@ import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -352,17 +353,19 @@ public class JedisUtil {
     }
 
     public static void main(String[] args) {
-        long start = System.currentTimeMillis();
+        /*long start = System.currentTimeMillis();
         for (int i = 0; i < 100000; i++) {
             setObjectValue("key" + i, "value" + i);
         }
         System.out.println(getObjectValue("key" + 5555));
         long end = System.currentTimeMillis();
-        System.out.println("cost:" + (end - start));
+        System.out.println("cost:" + (end - start));*/
 
-        // JedisSimpleFactry-100000:11996/11938/11848
-        // JedisSimpleFactry-100000:35061
-        // ShardedJedisPoolFactry-100000:8G:84449		4G:235939
+        List<String> list = new ArrayList<String>();
+        list.add("jack");
+        list.add("luck");
+        list.add("张三");
+        setObjectValue("key02", list);
 
     }
 
