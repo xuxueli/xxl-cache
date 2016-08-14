@@ -5,17 +5,13 @@
     <parent>
         <groupId>com.xxl</groupId>
         <artifactId>xxl-cache</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${xxl.cache.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>xxl-cache-admin</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${xxl.cache.version}</version>
     <packaging>war</packaging>
 
-    <properties>
-        <spring.version>4.3.2.RELEASE</spring.version>
-        <jdk.version>1.7</jdk.version>
-    </properties>
 
     <dependencies>
         <!-- spring -->
@@ -143,37 +139,14 @@
             <version>2.9.0</version>
         </dependency>
 
+        <!-- xxl-cache-core -->
+        <dependency>
+            <groupId>com.xxl</groupId>
+            <artifactId>xxl-cache-core</artifactId>
+            <version>${xxl.cache.version}</version>
+        </dependency>
+
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
-                <configuration>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
-                    <encoding>UTF8</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <archiveClasses>false</archiveClasses>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19.1</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

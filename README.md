@@ -16,6 +16,7 @@ XXL-CACHE是一个分布式缓存管理平台，其核心设计目标是“让�
 #### 1.3 下载
 源码地址 (将会在两个git仓库同步发布最新代码)
 - [github地址](https://github.com/xuxueli/xxl-cache)
+- [git.oschina地址](https://git.oschina.net/xuxueli0323/xxl-cache)
 
 博客地址
 - [oschina地址](http://my.oschina.net/xuxueli/blog/732279)
@@ -36,9 +37,10 @@ XXL-CACHE是一个分布式缓存管理平台，其核心设计目标是“让�
 #### 2.2 编译源码
 解压源码,按照maven格式将源码导入IDE, 使用maven进行编译即可，源码结构如下图所示：
 
-![输入图片说明](https://static.oschina.net/uploads/img/201608/13220029_a3Li.png "在这里输入图片标题")
+![输入图片说明](https://static.oschina.net/uploads/img/201608/14181242_WuIp.png "在这里输入图片标题")
 
-    - xxl-cache-admin：缓存管理平台
+- xxl-cache-admin：缓存管理平台
+- xxl-cache-core：公共依赖，为缓存服务抽象成公共RPC服务做准备
 
 #### 2.3 配置部署“缓存管理平台”
     项目：xxl-cache-admin
@@ -46,11 +48,11 @@ XXL-CACHE是一个分布式缓存管理平台，其核心设计目标是“让�
 
 - **A：配置“JDBC链接”**：请在下图所示位置配置jdbc链接地址，链接地址请保持和 2.1章节 所创建的调度数据库的地址一致。
 
-![输入图片说明](https://static.oschina.net/uploads/img/201608/13220737_xPiR.png "在这里输入图片标题")
+![输入图片说明](https://static.oschina.net/uploads/img/201608/14182549_eJb0.png "在这里输入图片标题")
 
 - **B：配置“分布式缓存配置”**：请在下图所示位置配置分布树缓存信息，和线上项目中缓存配置务必保持一致。
 
-![输入图片说明](https://static.oschina.net/uploads/img/201608/13221035_4csT.png "在这里输入图片标题")
+![输入图片说明](https://static.oschina.net/uploads/img/201608/14182652_EPzL.png "在这里输入图片标题")
 
 配置详解：
 
@@ -72,17 +74,14 @@ XXL-CACHE是一个分布式缓存管理平台，其核心设计目标是“让�
 进入“缓存管理”界面，点击“新增缓存模板界面”，配置模板信息
 ![输入图片说明](https://static.oschina.net/uploads/img/201608/13225107_3uNc.png "在这里输入图片标题")
 
-然后，点击缓存模板右侧的“缓存管理”按钮 
+然后，点击缓存模板右侧的“缓存操作”按钮 
 ![输入图片说明](https://static.oschina.net/uploads/img/201608/13225300_aDwT.png "在这里输入图片标题")
-
-点击按钮“生成FinalKey”（如果模板中存在占位符，将会被缓存参数替换，生成最终的缓存Key）
-![输入图片说明](https://static.oschina.net/uploads/img/201608/13225420_fNSM.png "在这里输入图片标题")
 
 Set缓存数据，代码如下
 ![输入图片说明](https://static.oschina.net/uploads/img/201608/13230041_GwE5.png "在这里输入图片标题")
 
 点击“查询缓存”，即可直观查看缓存信息
-![输入图片说明](https://static.oschina.net/uploads/img/201608/13225859_dssx.png "在这里输入图片标题")
+![输入图片说明](https://static.oschina.net/uploads/img/201608/14182857_VuTP.png "在这里输入图片标题")
 
 ## 二、缓存模板详解
 #### 3.1 XXl-CACHE系统中常用名词（缓存属性）解释
@@ -106,11 +105,18 @@ Set缓存数据，代码如下
 
 XXL-CACHE核心思想：
 
-- 1、将分布式缓存抽象成公共统一的服务，对外提供公共API进行缓存操作：接入更加方便和高效，接入方依赖一个RPC服务即可；
+- 1、将分布式缓存抽象成公共RPC服务，对外提供公共API进行缓存操作：
+    - 1、项目接入缓存服务更加方便：接入方只需要依赖一个RPC服务的API即可；
+    - 2、统一监控和维护缓存服务;
+    - 3、方便控制client连接数量;
+    - 4、缓存节点变更更加方便;
+    - 5、在节点变更时, 缓存分片很大可能会受影响, 这将导致不同服务的分片逻辑出现不一致的情况, 统一缓存服务可以避免之;
+    - 6、可以屏蔽底层API操作,提供公共API,避免API误操作;
+
 - 2、提供缓存管理和监控平台：方便的查询、管理和监控线上缓存数据；
 
 #### 规划中
-- 1、抽象缓存RPC服务，对外提供统一API接口，统一提供缓存服务；
+- 1、优化交互，优化底层系统结构；
 
 ## 七、其他
 

@@ -1,9 +1,9 @@
 package com.xxl.cache.service.impl;
 
-import com.xxl.cache.core.model.XxlCacheKey;
+import com.xxl.cache.core.model.XxlCacheTemplate;
 import com.xxl.cache.core.util.ReturnT;
-import com.xxl.cache.dao.IXxlCacheKeyDao;
-import com.xxl.cache.service.IXxlCacheKeyService;
+import com.xxl.cache.dao.IXxlCacheTemplateDao;
+import com.xxl.cache.service.IXxlCacheTemplateService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,12 +18,12 @@ import java.util.Map;
  * Created by xuxueli on 16/8/9.
  */
 @Service
-public class XxlCacheKeyServiceImpl implements IXxlCacheKeyService {
+public class XxlCacheTemplateServiceImpl implements IXxlCacheTemplateService {
     private static Logger logger = LogManager.getLogger();
 
 
     @Resource
-    private IXxlCacheKeyDao xxlCacheKeyDao;
+    private IXxlCacheTemplateDao xxlCacheKeyDao;
 
     @Override
     public Map<String, Object> pageList(int offset, int pagesize, String key) {
@@ -33,7 +33,7 @@ public class XxlCacheKeyServiceImpl implements IXxlCacheKeyService {
         params.put("pagesize", pagesize);
         params.put("key", key);
 
-        List<XxlCacheKey> data = xxlCacheKeyDao.pageList(params);
+        List<XxlCacheTemplate> data = xxlCacheKeyDao.pageList(params);
         int list_count = xxlCacheKeyDao.pageListCount(params);
 
         // package result
@@ -45,26 +45,26 @@ public class XxlCacheKeyServiceImpl implements IXxlCacheKeyService {
     }
 
     @Override
-    public ReturnT<String> save(XxlCacheKey xxlCacheKey) {
-        if (StringUtils.isBlank(xxlCacheKey.getKey())) {
+    public ReturnT<String> save(XxlCacheTemplate xxlCacheTemplate) {
+        if (StringUtils.isBlank(xxlCacheTemplate.getKey())) {
             return new ReturnT<String>(500, "请输入“缓存Key”");
         }
-        if (StringUtils.isBlank(xxlCacheKey.getIntro())) {
+        if (StringUtils.isBlank(xxlCacheTemplate.getIntro())) {
             return new ReturnT<String>(500, "请输入“简介”");
         }
-        xxlCacheKeyDao.save(xxlCacheKey);
+        xxlCacheKeyDao.save(xxlCacheTemplate);
         return ReturnT.SUCCESS;
     }
 
     @Override
-    public ReturnT<String> update(XxlCacheKey xxlCacheKey) {
-        if (StringUtils.isBlank(xxlCacheKey.getKey())) {
+    public ReturnT<String> update(XxlCacheTemplate xxlCacheTemplate) {
+        if (StringUtils.isBlank(xxlCacheTemplate.getKey())) {
             return new ReturnT<String>(500, "请输入“缓存Key”");
         }
-        if (StringUtils.isBlank(xxlCacheKey.getIntro())) {
+        if (StringUtils.isBlank(xxlCacheTemplate.getIntro())) {
             return new ReturnT<String>(500, "请输入“简介”");
         }
-        xxlCacheKeyDao.update(xxlCacheKey);
+        xxlCacheKeyDao.update(xxlCacheTemplate);
         return ReturnT.SUCCESS;
     }
 

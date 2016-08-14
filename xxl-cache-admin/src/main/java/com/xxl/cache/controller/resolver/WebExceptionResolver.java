@@ -28,6 +28,7 @@ public class WebExceptionResolver implements HandlerExceptionResolver {
 		HandlerMethod method = (HandlerMethod)handler;
 		ResponseBody responseBody = method.getMethodAnnotation(ResponseBody.class);
 		if (responseBody != null) {
+			response.setContentType("application/json;charset=UTF-8");
 			mv.addObject("result", JacksonUtil.writeValueAsString(new ReturnT<String>(500, ex.toString().replaceAll("\n", "<br/>"))));
 			mv.setViewName("/common/common.result");
 		} else {

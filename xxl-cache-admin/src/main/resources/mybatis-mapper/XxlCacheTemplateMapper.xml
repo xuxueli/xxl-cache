@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="XxlCacheKeyMapper">
+<mapper namespace="XxlCacheTemplateMapper">
 	
-	<resultMap id="XxlCacheKey" type="com.xxl.cache.core.model.XxlCacheKey" >
+	<resultMap id="XxlCacheKey" type="com.xxl.cache.core.model.XxlCacheTemplate" >
 		<result column="id" property="id" />
 		<result column="key" property="key" />
 		<result column="intro" property="intro" />
@@ -17,7 +17,7 @@
 	
 	<select id="pageList" parameterType="java.util.Map" resultMap="XxlCacheKey">
 		SELECT <include refid="Base_Column_List" />
-		FROM XXL_CACHE_KEY AS t
+		FROM XXL_CACHE_TEMPLATE AS t
 		<trim prefix="WHERE" prefixOverrides="AND | OR" >
 			<if test="key != null and key != ''">
 				AND t.key = #{key}
@@ -29,7 +29,7 @@
 	
 	<select id="pageListCount" parameterType="java.util.Map" resultType="int">
 		SELECT count(1)
-		FROM XXL_CACHE_KEY AS t
+		FROM XXL_CACHE_TEMPLATE AS t
 		<trim prefix="WHERE" prefixOverrides="AND | OR" >
 			<if test="key != null and key != ''">
 				AND t.key = #{key}
@@ -37,8 +37,8 @@
 		</trim>
 	</select>
 	
-	<insert id="save" parameterType="com.xxl.cache.core.model.XxlCacheKey" useGeneratedKeys="true" keyProperty="id" >
-		INSERT INTO XXL_CACHE_KEY (
+	<insert id="save" parameterType="com.xxl.cache.core.model.XxlCacheTemplate" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO XXL_CACHE_TEMPLATE (
 			`key`,
 			`intro`
 		) VALUES (
@@ -50,8 +50,8 @@
 		</selectKey> 
 	</insert>
 	
-	<update id="update" parameterType="com.xxl.cache.core.model.XxlCacheKey" >
-		UPDATE XXL_CACHE_KEY
+	<update id="update" parameterType="com.xxl.cache.core.model.XxlCacheTemplate" >
+		UPDATE XXL_CACHE_TEMPLATE
 		SET	`key` = #{key},
 		  	intro = #{intro}
 		WHERE id = #{id}
@@ -59,13 +59,13 @@
 	
 	<delete id="delete" parameterType="java.lang.Integer">
 		DELETE
-		FROM XXL_CACHE_KEY
+		FROM XXL_CACHE_TEMPLATE
 		WHERE id = #{id}
 	</delete>
 
 	<select id="load" parameterType="java.lang.Integer" resultMap="XxlCacheKey">
 		SELECT <include refid="Base_Column_List" />
-		FROM XXL_CACHE_KEY AS t
+		FROM XXL_CACHE_TEMPLATE AS t
 		WHERE t.id = #{id}
 	</select>
 

@@ -160,14 +160,9 @@
                         <label for="lastname" class="col-sm-2 control-label">缓存参数<font color="black">*</font></label>
                         <div class="col-sm-8"><input type="text" class="form-control" name="params" placeholder="多个参数逗号分隔,依次替换占位符{0}、{1}、{2}的位置" maxlength="100" ></div>
                     </div>
-                    <div class="form-group">
-                        <label for="lastname" class="col-sm-2 control-label">FinalKey<font color="red">*</font></label>
-                        <div class="col-sm-8"><input type="text" class="form-control" name="finalKey" placeholder="请输入“模板参数”" maxlength="100" ></div>
-                    </div>
                     <hr>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <button type="button" class="btn btn-primary getFinalKey" >生成FinalKey</button>
                             <button type="button" class="btn btn-primary getCache" >查询缓存</button>
                             <button type="button" class="btn btn-primary removeCache" >清除缓存</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

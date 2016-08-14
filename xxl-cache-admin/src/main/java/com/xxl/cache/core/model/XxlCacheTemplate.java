@@ -3,7 +3,7 @@ package com.xxl.cache.core.model;
 /**
  * Created by xuxueli on 16/8/9.
  */
-public class XxlCacheKey {
+public class XxlCacheTemplate {
 
     private int id;
     private String key;

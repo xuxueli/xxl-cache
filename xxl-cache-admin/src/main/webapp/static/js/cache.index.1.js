@@ -245,8 +245,8 @@ $(function() {
 		$("#cacheManageModal .form")[0].reset()
 	});
 
-	// get final key
-	$("#cacheManageModal").on('click', '.getFinalKey',function() {
+	// get cache
+	$("#cacheManageModal").on('click', '.getCache',function() {
 
 		// hide cacheDetail
 		$("#cacheManageModal .cacheDetail").hide();
@@ -256,39 +256,11 @@ $(function() {
 		var key = $("#cacheManageModal .form input[name='key']").val();
 		var params = $("#cacheManageModal .form input[name='params']").val();
 
-		$.post(base_url + "/cache/getFinalKey", {"key":key, "params":params}, function(data, status) {
-			if (data.code == "200") {
-				var finalKey = data.content;
-				$("#cacheManageModal .form input[name='finalKey']").val(finalKey);
-				//toastr.options = {"progressBar": true, "positionClass": "top-center"};
-				toastr.success("FinalKey已刷新", null, {"progressBar": true, "positionClass": "toast-top-center"});
-			} else {
-				if (data.msg) {
-					toastr.error(data.msg);
-				} else {
-					toastr.error("查询失败");
-				}
-			}
-		});
 
-	});
-
-	// get cache
-	$("#cacheManageModal").on('click', '.getCache',function() {
-
-		// hide cacheDetail
-		$("#cacheManageModal .cacheDetail").hide();
-		$("#cacheManageModal .cacheVal").html('');
-		// final key
-		var finalKey = $("#cacheManageModal .form input[name='finalKey']").val();
-		if (!finalKey){
-			toastr.warning('"FinalKey"不可为空');
-			return;
-		}
-
-		$.post(base_url + "/cache/getCacheInfo", {"finalKey":finalKey}, function(data, status) {
+		$.post(base_url + "/cache/getCacheInfo", {"key":key, "param":params}, function(data, status) {
 			if (data.code == "200") {
 				var temp = '';
+				temp += '<b>FinalKey:</b> ' + data.content.finalKey + '<br><br>';
 				temp += '<b>类型:</b> ' + data.content.type + '<br><br>';
 				temp += '<b>长度:</b> ' + data.content.length + '<br><br>';
 				temp += '<b>内容:</b> ' + data.content.info + '<br><br>';
@@ -299,9 +271,9 @@ $(function() {
 				$("#cacheManageModal .cacheVal").html(temp);
 			} else {
 				if (data.msg) {
-					toastr.error(data.msg);
+					toastr.error(data.msg, null, {"progressBar": true, "positionClass": "toast-top-center"});
 				} else {
-					toastr.error("查询失败");
+					toastr.error("查询失败", null, {"progressBar": true, "positionClass": "toast-top-center"});
 				}
 			}
 		});
@@ -314,24 +286,24 @@ $(function() {
 		// hide cacheDetail
 		$("#cacheManageModal .cacheDetail").hide();
 		$("#cacheManageModal .cacheVal").html('');
-		// final key
-		var finalKey = $("#cacheManageModal .form input[name='finalKey']").val();
-		if (!finalKey){
-			toastr.warning('"FinalKey"不可为空');
-			return;
-		}
+
+		// data used to get final key
+		var key = $("#cacheManageModal .form input[name='key']").val();
+		var params = $("#cacheManageModal .form input[name='params']").val();
 
 		ComConfirm.show("确认清除缓存?", function(){
 
-			$.post(base_url + "/cache/removeCache", {"finalKey":finalKey}, function(data, status) {
+			$.post(base_url + "/cache/removeCache", {"key":key, "param":params}, function(data, status) {
+				// finakKey
+				var finalKey = data.content;
+
 				if (data.code == "200") {
-					toastr.options.success("缓存清除成功");
+					toastr.success("缓存清除成功", null, {"progressBar": true, "positionClass": "toast-top-center"});
 				} else {
 					if (data.msg) {
-						toastr.options = {"progressBar": true, "positionClass": "top-center"}
-						toastr.error(data.msg);
+						toastr.error(data.msg, null, {"progressBar": true, "positionClass": "toast-top-center"});
 					} else {
-						toastr.error("缓存清除失败,可能缓存数据不存在");
+						toastr.error("缓存清除失败", null, {"progressBar": true, "positionClass": "toast-top-center"});
 					}
 				}
 			});
