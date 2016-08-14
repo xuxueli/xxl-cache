@@ -14,7 +14,7 @@
 	<properties>
 		<spring.version>4.3.2.RELEASE</spring.version>
 		<jdk.version>1.7</jdk.version>
-		<xxl.cache.version>0.0.1-SNAPSHOT</xxl.cache.version>
+		<xxl.cache.version>1.0.0-SNAPSHOT</xxl.cache.version>
 	</properties>
 
 	<build>
