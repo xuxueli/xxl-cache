@@ -49,6 +49,7 @@ public final class XMemcachedUtil {
                     Properties prop = PropertiesUtil.loadProperties(DEFAULT_CONFIG);
                     // client地址
                     String serverAddress = PropertiesUtil.getString(prop, "xmemcached.address");
+					serverAddress = serverAddress.replaceAll(",", " ");
 
                     // 连接池：高负载下nio单连接有瓶颈,设置连接池可分担memcached请求负载,从而提高系统吞吐量
                     MemcachedClientBuilder builder = new XMemcachedClientBuilder(AddrUtil.getAddressMap(serverAddress));
