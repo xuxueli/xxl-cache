@@ -101,7 +101,6 @@ Set缓存数据，代码如下
     - /db :“数据库”建表脚本
     - /xxl-cache-admin :缓存管理平台，项目源码；
     - /xxl-cache-core : 公共依赖；（规划中）
-    - /xxl-cache-service: 公共的缓存RPC服务；（规划中）
 
 #### 5.2 核心思想
 
