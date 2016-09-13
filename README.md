@@ -22,6 +22,7 @@ XXL-CACHE核心思想：将分布式缓存抽象成公共RPC服务，对外提�
 
 博客地址
 - [oschina地址](http://my.oschina.net/xuxueli/blog/732279)
+- [cnblogs地址](http://www.cnblogs.com/xuxueli/p/5869445.html)
 
 技术交流群(仅作技术交流)：367260654    [![image](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=4686e3fe01118445c75673a66b4cc6b2c7ce0641528205b6f403c179062b0a52 )
 
