@@ -45,30 +45,33 @@ public final class XMemcachedUtil {
             // 构建分布式权重client
             try {
                 if (INSTANCE_INIT_LOCK.tryLock(2, TimeUnit.SECONDS)) {
-                    // 构建分布式权重client
-                    Properties prop = PropertiesUtil.loadProperties(DEFAULT_CONFIG);
-                    // client地址
-                    String serverAddress = PropertiesUtil.getString(prop, "xmemcached.address");
-					serverAddress = serverAddress.replaceAll(",", " ");
+					try {
+						// 构建分布式权重client
+						Properties prop = PropertiesUtil.loadProperties(DEFAULT_CONFIG);
+						// client地址
+						String serverAddress = PropertiesUtil.getString(prop, "xmemcached.address");
+						serverAddress = serverAddress.replaceAll(",", " ");
 
-                    // 连接池：高负载下nio单连接有瓶颈,设置连接池可分担memcached请求负载,从而提高系统吞吐量
-                    MemcachedClientBuilder builder = new XMemcachedClientBuilder(AddrUtil.getAddressMap(serverAddress));
-                    builder.setConnectionPoolSize(5);	// 设置连接池大小，即客户端个数 NIO
-                    builder.setFailureMode(true);		// 宕机报警
-                    builder.setSessionLocator(new KetamaMemcachedSessionLocator());	//  分布策略:一致性哈希
+						// 连接池：高负载下nio单连接有瓶颈,设置连接池可分担memcached请求负载,从而提高系统吞吐量
+						MemcachedClientBuilder builder = new XMemcachedClientBuilder(AddrUtil.getAddressMap(serverAddress));
+						builder.setConnectionPoolSize(5);	// 设置连接池大小，即客户端个数 NIO
+						builder.setFailureMode(true);		// 宕机报警
+						builder.setSessionLocator(new KetamaMemcachedSessionLocator());	//  分布策略:一致性哈希
 
-                    // 客户端
-                    try {
-                        memcachedClient = builder.build();
-                        memcachedClient.setPrimitiveAsString(true);	//
-                        memcachedClient.setConnectTimeout(3000L);	// 连接超时
-                        memcachedClient.setOpTimeout(1500L);		// 全局等待时间
-                        //memcachedClient.addStateListener(new MemcachedListener());
-                    } catch (IOException e) {
-                        logger.error("", e);
-                    }
-                    logger.info(">>>>>>>>>>> xxl-cache, JedisUtil.ShardedJedisPool init success.");
-
+						// 客户端
+						try {
+							memcachedClient = builder.build();
+							memcachedClient.setPrimitiveAsString(true);	//
+							memcachedClient.setConnectTimeout(3000L);	// 连接超时
+							memcachedClient.setOpTimeout(1500L);		// 全局等待时间
+							//memcachedClient.addStateListener(new MemcachedListener());
+						} catch (IOException e) {
+							logger.error("", e);
+						}
+						logger.info(">>>>>>>>>>> xxl-cache, JedisUtil.ShardedJedisPool init success.");
+					} finally {
+						INSTANCE_INIT_LOCK.unlock();
+					}
                 }
             } catch (InterruptedException e) {
                 logger.error("", e);
