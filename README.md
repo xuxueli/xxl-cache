@@ -18,7 +18,7 @@ XXL-CACHE核心思想：将分布式缓存抽象成公共RPC服务，对外提�
 #### 1.3 下载
 源码地址 (将会在两个git仓库同步发布最新代码)
 - [github地址](https://github.com/xuxueli/xxl-cache)
-- [git.oschina地址](https://git.oschina.net/xuxueli0323/xxl-cache)
+- [gitee地址](https://gitee.com/xuxueli0323/xxl-cache)
 
 博客地址
 - [oschina地址](http://my.oschina.net/xuxueli/blog/732279)
