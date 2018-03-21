@@ -44,7 +44,7 @@ XXL-CACHE核心思想：将分布式缓存抽象成公共RPC服务，对外提�
 ### 2.2 编译源码
 解压源码,按照maven格式将源码导入IDE, 使用maven进行编译即可，源码结构如下图所示：
 
-![输入图片说明](https://raw.githubusercontent.com/xuxueli/xxl-conf/master/doc/images/img_WuIp.png "在这里输入图片标题")
+![输入图片说明](https://raw.githubusercontent.com/xuxueli/xxl-cache/master/doc/images/img_WuIp.png "在这里输入图片标题")
 
 - xxl-cache-admin：缓存管理平台
 - xxl-cache-core：公共依赖，为缓存服务抽象成公共RPC服务做准备
@@ -55,11 +55,11 @@ XXL-CACHE核心思想：将分布式缓存抽象成公共RPC服务，对外提�
 
 - **A：配置“JDBC链接”**：请在下图所示位置配置jdbc链接地址，链接地址请保持和 2.1章节 所创建的调度数据库的地址一致。
 
-![输入图片说明](https://raw.githubusercontent.com/xuxueli/xxl-conf/master/doc/images/img_eJb0.png "在这里输入图片标题")
+![输入图片说明](https://raw.githubusercontent.com/xuxueli/xxl-cache/master/doc/images/img_eJb0.png "在这里输入图片标题")
 
 - **B：配置“分布式缓存配置”**：请在下图所示位置配置分布树缓存信息，和线上项目中缓存配置务必保持一致。
 
-![输入图片说明](https://raw.githubusercontent.com/xuxueli/xxl-conf/master/doc/images/img_EPzL.png "在这里输入图片标题")
+![输入图片说明](https://raw.githubusercontent.com/xuxueli/xxl-cache/master/doc/images/img_EPzL.png "在这里输入图片标题")
 
 配置详解：
 
@@ -79,16 +79,16 @@ XXL-CACHE核心思想：将分布式缓存抽象成公共RPC服务，对外提�
 ### 2.4 查询线上缓存
 
 进入“缓存管理”界面，点击“新增缓存模板界面”，配置模板信息
-![输入图片说明](https://raw.githubusercontent.com/xuxueli/xxl-conf/master/doc/images/img_3uNc.png "在这里输入图片标题")
+![输入图片说明](https://raw.githubusercontent.com/xuxueli/xxl-cache/master/doc/images/img_3uNc.png "在这里输入图片标题")
 
 然后，点击缓存模板右侧的“缓存操作”按钮 
-![输入图片说明](https://raw.githubusercontent.com/xuxueli/xxl-conf/master/doc/images/img_aDwT.png "在这里输入图片标题")
+![输入图片说明](https://raw.githubusercontent.com/xuxueli/xxl-cache/master/doc/images/img_aDwT.png "在这里输入图片标题")
 
 Set缓存数据，代码如下
-![输入图片说明](https://raw.githubusercontent.com/xuxueli/xxl-conf/master/doc/images/img_GwE5.png "在这里输入图片标题")
+![输入图片说明](https://raw.githubusercontent.com/xuxueli/xxl-cache/master/doc/images/img_GwE5.png "在这里输入图片标题")
 
 点击“查询缓存”，即可直观查看缓存信息
-![输入图片说明](https://raw.githubusercontent.com/xuxueli/xxl-conf/master/doc/images/img_VuTP.png "在这里输入图片标题")
+![输入图片说明](https://raw.githubusercontent.com/xuxueli/xxl-cache/master/doc/images/img_VuTP.png "在这里输入图片标题")
 
 ## 二、缓存模板详解
 ### 3.1 XXl-CACHE系统中常用名词（缓存属性）解释
