@@ -31,12 +31,10 @@
 				<h4>简介：XXL-CACHE</h4>
 				<br>
 				<p>
-					<a target="_blank" href="https://github.com/xuxueli/xxl-cache">github地址</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a target="_blank" href="https://github.com/xuxueli/xxl-cache">Github</a>&nbsp;&nbsp;&nbsp;&nbsp;
 					<iframe src="https://ghbtns.com/github-btn.html?user=xuxueli&repo=xxl-cache&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px" style="margin-bottom:-5px;"></iframe>
-					<br><br>
-					<a target="_blank" href="http://my.oschina.net/xuxueli/blog/732279">oschina地址</a>
                     <br><br>
-                    <a target="_blank" href="http://www.xuxueli.com/page/community.html">社区交流</a>
+                    <a target="_blank" href="http://www.xuxueli.com/xxl-cache/">官方文档</a>
                     <br><br>
 
 				</p>

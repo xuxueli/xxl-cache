@@ -95,13 +95,14 @@
 
 <#macro commonFooter >
 	<footer class="main-footer">
-		<#--<div class="pull-right hidden-xs">
-			<b>Version</b> 1.4
-		</div>-->
-		<strong>Copyright &copy; 2015-${.now?string('yyyy')} &nbsp;
-			<a href="https://github.com/xuxueli/xxl-cache" target="_blank" >github</a>&nbsp;
-			<a href="http://my.oschina.net/xuxueli/blog/732279" target="_blank" >oschina</a>
-		</strong><!-- All rights reserved. -->
+		Powered by <b>XXL-CACHE</b>
+		<div class="pull-right hidden-xs">
+			<strong>Copyright &copy; 2015-${.now?string('yyyy')} &nbsp;
+				<a href="http://www.xuxueli.com/" target="_blank" >xuxueli</a>
+				&nbsp;
+				<a href="https://github.com/xuxueli/xxl-cache" target="_blank" >github</a>
+			</strong><!-- All rights reserved. -->
+		</div>
 	</footer>
 </#macro>
 
