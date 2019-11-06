@@ -18,7 +18,7 @@ XXL-CACHE核心思想：将分布式缓存抽象成公共RPC服务，对外提�
 ### 1.3 下载
 #### 文档地址
 
-- [中文文档](http://www.xuxueli.com/xxl-cache/)
+- [中文文档](https://www.xuxueli.com/xxl-cache/)
 
 #### 源码仓库地址
 
@@ -28,7 +28,7 @@ XXL-CACHE核心思想：将分布式缓存抽象成公共RPC服务，对外提�
 [http://gitee.com/xuxueli0323/xxl-cache](http://gitee.com/xuxueli0323/xxl-cache) | [Download](http://gitee.com/xuxueli0323/xxl-cache/releases)
 
 #### 技术交流
-- [社区交流](http://www.xuxueli.com/page/community.html)
+- [社区交流](https://www.xuxueli.com/page/community.html)
 
 ### 1.4 环境
 - Maven3+

@@ -4,7 +4,7 @@
     <p align="center">
         XXL-CACHE, A distributed cache management platform.
         <br>
-        <a href="http://www.xuxueli.com/xxl-cache/"><strong>-- Home Page --</strong></a>
+        <a href="https://www.xuxueli.com/xxl-cache/"><strong>-- Home Page --</strong></a>
         <br>
         <br>
          <a href="http://www.gnu.org/licenses/gpl-3.0.html">
@@ -28,11 +28,11 @@ XXL-CACHE是一个分布式缓存管理平台，其核心设计目标是“让�
 - 7、查看缓存JSON格式内容：支持将缓存数据转换成JSON格式，直观查看缓存数据内容；
 
 ## Documentation
-- [中文文档](http://www.xuxueli.com/xxl-cache/)
+- [中文文档](https://www.xuxueli.com/xxl-cache/)
 
 ## Communication
 
-- [社区交流](http://www.xuxueli.com/page/community.html)
+- [社区交流](https://www.xuxueli.com/page/community.html)
 
 
 ## Contributing
@@ -52,6 +52,6 @@ This product is open source and free, and will continue to provide free communit
 产品开源免费，并且将持续提供免费的社区技术支持。个人或企业内部可自由的接入和使用。
 
 ## Donate
-No matter how much the donation amount is enough to express your thought, thank you very much ：）     [To donate](http://www.xuxueli.com/page/donate.html )
+No matter how much the donation amount is enough to express your thought, thank you very much ：）     [To donate](https://www.xuxueli.com/page/donate.html )
 
-无论捐赠金额多少都足够表达您这份心意，非常感谢 ：）      [前往捐赠](http://www.xuxueli.com/page/donate.html )
+无论捐赠金额多少都足够表达您这份心意，非常感谢 ：）      [前往捐赠](https://www.xuxueli.com/page/donate.html )
