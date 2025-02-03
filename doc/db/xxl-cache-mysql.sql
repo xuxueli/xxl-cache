@@ -1,6 +1,0 @@
-CREATE TABLE XXL_CACHE_TEMPLATE (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `key` varchar(250) NOT NULL,
-  `intro` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
