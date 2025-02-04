@@ -1,4 +1,11 @@
-# 《分布式缓存管理平台XXL-CACHE》
+# 《多级缓存框架XXL-CACHE》
+
+[![Actions Status](https://github.com/xuxueli/xxl-cache/workflows/Java%20CI/badge.svg)](https://github.com/xuxueli/xxl-cache/actions)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.xuxueli/xxl-cache-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.xuxueli/xxl-cache-core/)
+[![GitHub release](https://img.shields.io/github/release/xuxueli/xxl-cache.svg)](https://github.com/xuxueli/xxl-cache/releases)
+[![GitHub stars](https://img.shields.io/github/stars/xuxueli/xxl-cache)](https://github.com/xuxueli/xxl-cache/)
+![License](https://img.shields.io/github/license/xuxueli/xxl-cache.svg)
+[![donate](https://img.shields.io/badge/%24-donate-ff69b4.svg?style=flat-square)](https://www.xuxueli.com/page/donate.html)
 
 [TOCM]
 
@@ -7,18 +14,19 @@
 ## 一、简介
 
 ### 1.1 概述
-XXL-CACHE是一个分布式缓存管理平台，其核心设计目标是“让分布式缓存的接入和管理的更加的简洁和高效”。现已开放源代码，开箱即用。
+XXL-CACHE 是一个 多级缓存框架，高效组合本地缓存和分布式缓存(Redis+Caffeine)，支持“多级缓存、一致性保障、TTL、Category隔离、防穿透”等能力；拥有“高性能、高扩展、灵活易用”等特性，提供高性能多级缓存解决方案；
 
-XXL-CACHE核心思想：将分布式缓存抽象成公共RPC服务，对外提供公共API进行缓存操作; 提供缓存公共的管理和监控平台：方便的查询、管理和监控线上缓存数据；
 
 ### 1.2 特性
-- 1、多种缓存支持：支持Redis、Memcached两种缓存在线的查询和管理；
-- 2、分布式缓存管理：支持分布式环境下，集群缓存服务的查询和管理，自动命中缓存服务节点；
-- 3、方便：支持通过Web界管理缓存模板，查询和管理缓存数据；
-- 4、透明：集群节点变动时，缓存命中的分片逻辑保持线上一致，自动命中缓存数据；
-- 5、查看序列化缓存数据：通常缓存中保存的是序列化的Java数据，因此当需要查看缓存键值数据非常麻烦，本系统支持方便的查看缓存数据内容，反序列化数据；
-- 6、查看缓存数据长度：直观显示缓存数据的长度；
-- 7、查看缓存JSON格式内容：支持将缓存数据转换成JSON格式，直观查看缓存数据内容；
+- 1、灵活易用: 接入灵活方便，一分钟上手；
+- 2、多级缓存：高效组合本地缓存和分布式缓存(Redis+Caffeine)，支持L1、L2级别缓存，支持多场景缓存诉求；
+- 3、高扩展：框架进行模块化抽象设计，本地缓存、分布式缓存以及序列化方案均支持自定义扩展；
+- 4、高性能：底层设计L1(Local)+L2(Remote)多级缓存模型，除分布式缓存之外前置在应用层设置本地缓存，高热查询前置本地处理避免远程通讯，最大化提升性能；
+- 5、一致性保障：支持多层级、集群多节点之间缓存数据一致性保障，借助广播消息（Redis Pub/Sub）以及客户端主动过期，实现L1及L2之间以及L1各集群节点间缓存数据一致性同步；
+- 6、TTL：支持TTL，支持缓存数据主动过期及清理；
+- 7、Category隔离：支持自定义缓存Category分类，缓存数据存储隔离；
+- 8、缓存风险治理：针对典型缓存风险，如缓存穿透，底层进行针对性设计进行风险防护；
+- 9、透明接入：支持业务透明接入，屏蔽底层实现细节，降低业务开发成本，以及学习认知成本；
 
 ### 1.3 下载
 #### 文档地址
@@ -36,10 +44,18 @@ XXL-CACHE核心思想：将分布式缓存抽象成公共RPC服务，对外提�
 - [社区交流](https://www.xuxueli.com/page/community.html)
 
 ### 1.4 环境
-- Maven3+
-- Jdk1.7+
-- Tomcat7+
-- Mysql5.5+
+- JDK：1.8+
+
+### 1.5 Maven依赖
+```
+<!-- https://mvnrepository.com/artifact/com.xuxueli/xxl-cache-core -->
+<dependency>
+    <groupId>com.xuxueli</groupId>
+    <artifactId>xxl-cache-core</artifactId>
+    <version>${最新稳定版}</version>
+</dependency>
+```
+
 
 ## 二、快速入门
 

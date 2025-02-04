@@ -27,9 +27,9 @@
 </p>
 
 ## Introduction
-XXL-CACHE is a multi-level cache framework, easy to use, efficient performance, strong expansion; Efficient combination of local cache and distributed cache (Redis+Caffeine), with L1&L2 level cache, consistency assurance, TTL, Category isolation, penetration resistance and other features;
+XXL-CACHE is a multilevel cache framework that efficiently combines local cache and distributed cache (Redis+Caffeine), supporting "multilevel cache, consistency assurance, TTL, Category isolation, penetration prevention" and other capabilities. With "high performance, high scalability, flexible and easy to use" and other features, to provide high-performance multi-level caching solutions;
 
-XXL-CACHE 是一个 多级缓存框架，上手简单、性能高效、拓展性强；高效组合本地缓存和分布式缓存(Redis+Caffeine)，拥有L1&L2级缓存、一致性保障、TTL、Category隔离、防穿透等特性；
+XXL-CACHE 是一个 多级缓存框架，高效组合本地缓存和分布式缓存(Redis+Caffeine)，支持“多级缓存、一致性保障、TTL、Category隔离、防穿透”等能力；拥有“高性能、高扩展、灵活易用”等特性，提供高性能多级缓存解决方案；
 
 ## Documentation
 - [中文文档](https://www.xuxueli.com/xxl-cache/)
@@ -39,13 +39,15 @@ XXL-CACHE 是一个 多级缓存框架，上手简单、性能高效、拓展性
 
 
 ## Features
-- 1、多种缓存支持：支持Redis、Memcached两种缓存在线的查询和管理；
-- 2、分布式缓存管理：支持分布式环境下，集群缓存服务的查询和管理，自动命中缓存服务节点；
-- 3、方便：支持通过Web界管理缓存模板，查询和管理缓存数据；
-- 4、透明：集群节点变动时，缓存命中的分片逻辑保持线上一致，自动命中缓存数据；
-- 5、查看序列化缓存数据：通常缓存中保存的是序列化的Java数据，因此当需要查看缓存键值数据非常麻烦，本系统支持方便的查看缓存数据内容，反序列化数据；
-- 6、查看缓存数据长度：直观显示缓存数据的长度；
-- 7、查看缓存JSON格式内容：支持将缓存数据转换成JSON格式，直观查看缓存数据内容；
+- 1、灵活易用: 接入灵活方便，一分钟上手；
+- 2、多级缓存：高效组合本地缓存和分布式缓存(Redis+Caffeine)，支持L1、L2级别缓存，支持多场景缓存诉求；
+- 3、高扩展：框架进行模块化抽象设计，本地缓存、分布式缓存以及序列化方案均支持自定义扩展；
+- 4、高性能：底层设计L1(Local)+L2(Remote)多级缓存模型，除分布式缓存之外前置在应用层设置本地缓存，高热查询前置本地处理避免远程通讯，最大化提升性能；
+- 5、一致性保障：支持多层级、集群多节点之间缓存数据一致性保障，借助广播消息（Redis Pub/Sub）以及客户端主动过期，实现L1及L2之间以及L1各集群节点间缓存数据一致性同步；
+- 6、TTL：支持TTL，支持缓存数据主动过期及清理；
+- 7、Category隔离：支持自定义缓存Category分类，缓存数据存储隔离；
+- 8、缓存风险治理：针对典型缓存风险，如缓存穿透，底层进行针对性设计进行风险防护；
+- 9、透明接入：支持业务透明接入，屏蔽底层实现细节，降低业务开发成本，以及学习认知成本；
 
 
 ## Contributing
