@@ -43,7 +43,7 @@
 		<spring-boot.version>2.7.18</spring-boot.version>
 
 		<!-- xxl.cache -->
-		<xxl.cache.version>1.1.0</xxl.cache.version>
+		<xxl.cache.version>1.1.1-SNAPSHOT</xxl.cache.version>
 	</properties>
 
 	<build>
