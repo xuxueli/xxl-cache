@@ -49,6 +49,12 @@ XXL-CACHE 是一个 多级缓存框架，高效组合本地缓存和分布式缓
 
 ## 二、快速入门
 
+XXL-CACHE 支持与springboot无缝集成，同时也支持无框架方式使用（不依赖任意三方框架），多种接入方式可参考如下示例代码：
+- a、SpringBoot集成方式：示例代码位置 “./xxl-cache-samples/xxl-cache-sample-springboot”。
+- b、无框架方式：示例代码位置 “./xxl-cache-samples/xxl-cache-sample-frameless”。
+
+下文以 “SpringBoot集成方式” 介绍如何配置接入。
+
 ### 2.1 Maven引入
 ```
 <!-- https://mvnrepository.com/artifact/com.xuxueli/xxl-cache-core -->
@@ -59,23 +65,14 @@ XXL-CACHE 是一个 多级缓存框架，高效组合本地缓存和分布式缓
 </dependency>
 ```
 
-### 2.2 XXL-CACHE 配置
+### 2.2 配置文件
 
-XXL-CACHE 支持与springboot无缝集成，同时也支持无框架方式使用（不依赖任意三方框架），多种接入方式可参考如下示例代码：
-- a、SpringBoot集成方式：示例代码位置 “./xxl-cache-samples/xxl-cache-sample-springboot”。
-- b、无框架方式：示例代码位置 “./xxl-cache-samples/xxl-cache-sample-frameless”。
-
-下文以 “SpringBoot集成方式” 介绍如何配置接入。
-
-
-**配置文件：**
-
-- 配置文件位置：
+参考代码位置：
 ```
 /xxl-cache/xxl-cache-samples/xxl-cache-sample-springboot/src/main/resources/application.properties
 ```
 
-- 配置项：
+配置项说明：
 ```
 # xxl-cache
 ## L1缓存（本地）提供者，默认 caffeine
@@ -90,6 +87,14 @@ xxl.cache.l2.user=
 xxl.cache.l2.password=
 ```
 
+### 2.3 组件初始化配置
+
+参考代码位置：
+```
+/xxl-cache/xxl-cache-samples/xxl-cache-sample-springboot/src/main/java/com/xxl/cache/core/sample/config/XxlCacheConf.java
+```
+
+组件配置示例：
 ```
 @Bean(initMethod = "start", destroyMethod = "stop")
 public XxlCacheFactory xxlCacheFactory() {
@@ -101,6 +106,32 @@ public XxlCacheFactory xxlCacheFactory() {
     xxlCacheFactory.setPassword(password);
     return xxlCacheFactory;
 }
+```
+
+至此，全部配置完成，业务代码接入使用。
+
+### 2.4 接入示例
+
+参考代码位置：
+```
+/xxl-cache/xxl-cache-samples/xxl-cache-sample-springboot/src/main/java/com/xxl/cache/core/sample/controller/IndexController.java
+```
+
+示例代码：
+```
+String category = "user";
+String key = "user03";
+
+// 缓存写入
+XxlCacheHelper.getCache(category).set(key, value);
+
+// 缓存查询
+String value = XxlCacheHelper.getCache(category).get(key);
+
+// 缓存删除
+XxlCacheHelper.getCache(category).del(key);
+... 
+
 ```
    
 ## 四、缓存管理

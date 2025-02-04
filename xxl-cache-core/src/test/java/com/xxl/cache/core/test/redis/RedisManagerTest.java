@@ -9,9 +9,10 @@ public class RedisManagerTest {
     public static void main(String[] args) {
 
         String nodes = "127.0.0.1:6379";
+        String user = null;
         String password = null;
 
-        RedisManager l2CacheManager = new RedisManager(nodes, password);
+        RedisManager l2CacheManager = new RedisManager(nodes, user, password);
         l2CacheManager.start();
 
         Cache cache = l2CacheManager.getCache();
