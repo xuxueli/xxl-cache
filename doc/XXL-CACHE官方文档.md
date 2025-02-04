@@ -82,9 +82,11 @@ XXL-CACHE 支持与springboot无缝集成，同时也支持无框架方式使用
 xxl.cache.l1.provider=caffeine
 ## L2缓存（分布式）提供者，默认 redis
 xxl.cache.l2.provider=redis
-## L2缓存（分布式）节点，多个节点用逗号分隔；示例 “127.0.0.1:6379,127.0.0.1:6380”
+## L2缓存节点配置，多个节点用逗号分隔；示例 “127.0.0.1:6379,127.0.0.1:6380”
 xxl.cache.l2.nodes=127.0.0.1:6379
-## L2缓存（分布式）密码
+## L2缓存用户名配置
+xxl.cache.l2.user=
+## L2缓存密码配置
 xxl.cache.l2.password=
 ```
 
@@ -95,6 +97,7 @@ public XxlCacheFactory xxlCacheFactory() {
     xxlCacheFactory.setL1Provider(l1Provider);
     xxlCacheFactory.setL2Provider(l2Provider);
     xxlCacheFactory.setNodes(nodes);
+    xxlCacheFactory.setUser(user);
     xxlCacheFactory.setPassword(password);
     return xxlCacheFactory;
 }

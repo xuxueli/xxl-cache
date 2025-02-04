@@ -18,6 +18,7 @@ public class RedisManager {
     private static Logger logger = LoggerFactory.getLogger(RedisManager.class);
 
     private String nodes;
+    private String user;
     private String password;
 
     private Set<HostAndPort> clusterNodes = new HashSet<>();
@@ -26,8 +27,11 @@ public class RedisManager {
     private int maxAttempts = 3;
 
 
-    public RedisManager(String nodes, String password) {
+    public RedisManager(String nodes, String user, String password) {
         this.nodes = nodes;
+        if (user!=null && !user.trim().isEmpty()) {
+            this.user = user;
+        }
         if (password!=null && !password.trim().isEmpty()) {
             this.password = password;
         }
@@ -68,6 +72,7 @@ public class RedisManager {
                         .builder()
                         .timeoutMillis(soTimeout)
                         .connectionTimeoutMillis(connectionTimeout)
+                        .user(user)
                         .password(password)
                         .build();
                 jedisCluster = new JedisCluster(clusterNodes, clientConfig, maxAttempts, poolConfig);
@@ -83,6 +88,7 @@ public class RedisManager {
                         .builder()
                         .timeoutMillis(soTimeout)
                         .connectionTimeoutMillis(connectionTimeout)
+                        .user(user)
                         .password(password)
                         .build();
 

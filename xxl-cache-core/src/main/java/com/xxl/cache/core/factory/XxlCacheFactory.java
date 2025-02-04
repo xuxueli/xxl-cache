@@ -36,6 +36,7 @@ public class XxlCacheFactory {
     private String l1Provider = CacheTypeEnum.CAFFEINE.getName();
     private String l2Provider = CacheTypeEnum.REDIS.getName();
     private String nodes;
+    private String user;
     private String password;
 
     public XxlCacheFactory() {
@@ -53,6 +54,10 @@ public class XxlCacheFactory {
 
     public void setNodes(String nodes) {
         this.nodes = nodes;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public void setPassword(String password) {
@@ -88,7 +93,7 @@ public class XxlCacheFactory {
         if (!CacheTypeEnum.REDIS.getName().equals(l2Provider)) {
             throw new RuntimeException("xxl-cache l2 cache provider invalid, l2Provider="+l2Provider);
         }
-        l2CacheManager = new RedisManager(nodes, password);
+        l2CacheManager = new RedisManager(nodes, user, password);
         l2CacheManager.start();
 
         // broadcast, l1 > l2 > l1
