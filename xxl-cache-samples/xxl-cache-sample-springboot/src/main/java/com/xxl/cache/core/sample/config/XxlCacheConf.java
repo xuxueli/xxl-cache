@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * @author xuxueli 2025-02-03
+ */
 @Configuration
 public class XxlCacheConf {
 

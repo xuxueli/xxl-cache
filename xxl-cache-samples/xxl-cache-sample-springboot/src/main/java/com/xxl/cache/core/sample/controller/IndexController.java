@@ -36,7 +36,8 @@ public class IndexController {
         String category = "user";
         String key = "user03";
 
-        return XxlCacheHelper.getCache(category).get(key);
+        String value = (String) XxlCacheHelper.getCache(category).get(key);
+        return "key: " + key + "<br> value: " + value;
     }
 
     @RequestMapping("/delete")
