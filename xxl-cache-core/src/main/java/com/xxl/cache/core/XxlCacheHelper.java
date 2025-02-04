@@ -75,11 +75,11 @@ public class XxlCacheHelper {
 
             // l1 cache
             XxlCacheFactory.getInstance().getL1CacheManager().getCache(category).set(finalKey, cacheValue);
-            logger.debug("xxl-cache, set l1-cache, key: {}, value: {}", finalKey, cacheValue);
+            logger.debug(">>>>>>>>>>> xxl-cache, set l1-cache, key: {}, value: {}", finalKey, cacheValue);
 
             // l2 cache
             XxlCacheFactory.getInstance().getL2CacheManager().getCache().set(finalKey, cacheValue);
-            logger.debug("xxl-cache, set l2-cache, key: {}, value: {}", finalKey, cacheValue);
+            logger.debug(">>>>>>>>>>> xxl-cache, set l2-cache, key: {}, value: {}", finalKey, cacheValue);
 
             // broadcast, l1 > l2 > l1
             XxlCacheFactory.getInstance().broadcast(new CacheBroadcastMessage(category, key));
@@ -98,7 +98,7 @@ public class XxlCacheHelper {
             CacheValue l1CacheValue = XxlCacheFactory.getInstance().getL1CacheManager().getCache(category).get(finalKey);
             if (l1CacheValue != null) {
                 if (l1CacheValue.isValid()) {       // l1-cache, not support key-expore, need valid time
-                    logger.debug("xxl-cache, get from l1-cache, key: {}, value: {}", finalKey, l1CacheValue);
+                    logger.debug(">>>>>>>>>>> xxl-cache, get from l1-cache, key: {}, value: {}", finalKey, l1CacheValue);
                     return l1CacheValue.getValue();
                 }
                 return null;
@@ -106,18 +106,18 @@ public class XxlCacheHelper {
 
             // l2 cache
             CacheValue l2CacheValue = XxlCacheFactory.getInstance().getL2CacheManager().getCache().get(finalKey);
-            logger.debug("xxl-cache, get from l2-cache, key: {}, value: {}", finalKey, l1CacheValue);
+            logger.debug(">>>>>>>>>>> xxl-cache, get from l2-cache, key: {}, value: {}", finalKey, l1CacheValue);
             if (l2CacheValue != null) {
 
                 // fill l1
                 XxlCacheFactory.getInstance().getL1CacheManager().getCache(category).set(finalKey, l2CacheValue);
-                logger.debug("xxl-cache, lazy set l2-cache, key: {}, value: {}", finalKey, l2CacheValue);
+                logger.debug(">>>>>>>>>>> xxl-cache, lazy set l2-cache, key: {}, value: {}", finalKey, l2CacheValue);
                 return l2CacheValue.getValue();
             } else {
 
                 // fill l1
                 XxlCacheFactory.getInstance().getL1CacheManager().getCache(category).set(finalKey, new CacheValue(null));   // l1-cache, none-value
-                logger.debug("xxl-cache, lazy set l2-cache, key: {}, value: {}", finalKey, null);
+                logger.debug(">>>>>>>>>>> xxl-cache, lazy set l2-cache, key: {}, value: {}", finalKey, null);
                 return null;
             }
         }
@@ -132,11 +132,11 @@ public class XxlCacheHelper {
 
             // l1 cache
             XxlCacheFactory.getInstance().getL1CacheManager().getCache(category).del(finalKey);
-            logger.debug("xxl-cache, del l1-cache, key: {}", finalKey);
+            logger.debug(">>>>>>>>>>> xxl-cache, del l1-cache, key: {}", finalKey);
 
             // l2 cache
             XxlCacheFactory.getInstance().getL2CacheManager().getCache().del(finalKey);
-            logger.debug("xxl-cache, del l2-cache, key: {}", finalKey);
+            logger.debug(">>>>>>>>>>> xxl-cache, del l2-cache, key: {}", finalKey);
 
             // broadcast, l1 > l2 > l1
             XxlCacheFactory.getInstance().broadcast(new CacheBroadcastMessage(category, key));

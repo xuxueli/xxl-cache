@@ -93,7 +93,7 @@ public class XxlCacheFactory {
 
         // broadcast, l1 > l2 > l1
         subscribe();
-        logger.info("xxl-cache, XxlCacheFactory start finish.");
+        logger.info(">>>>>>>>>>> xxl-cache, XxlCacheFactory start finish.");
     }
 
     public void stop() {
@@ -126,7 +126,7 @@ public class XxlCacheFactory {
                 logger.error(e.getMessage(), e);
             }
         }
-        logger.info("xxl-cache, XxlCacheFactory stop finish.");
+        logger.info(">>>>>>>>>>> xxl-cache, XxlCacheFactory stop finish.");
     }
 
     // -------------------- broadcast --------------------
@@ -157,17 +157,17 @@ public class XxlCacheFactory {
 
                 // fill l1
                 XxlCacheFactory.getInstance().getL1CacheManager().getCache(broadcastMessage.getCategory()).set(finalKey, l2CacheValue);
-                logger.debug("xxl-cache, broadcast set l1-cache, key: {}, value: {}", finalKey, l2CacheValue);
+                logger.debug(">>>>>>>>>>> xxl-cache, broadcast set l1-cache, key: {}, value: {}", finalKey, l2CacheValue);
             }
 
             @Override
             public void onSubscribe(byte[] channel, int subscribedChannels) {
-                logger.debug("xxl-cache, Subscribed to channel " + new String(channel, StandardCharsets.UTF_8) + ", total channels: " + subscribedChannels);
+                logger.debug(">>>>>>>>>>> xxl-cache, Subscribed to channel " + new String(channel, StandardCharsets.UTF_8) + ", total channels: " + subscribedChannels);
             }
 
             @Override
             public void onUnsubscribe(byte[] channel, int subscribedChannels) {
-                logger.debug("xxl-cache, Unsubscribed to channel " + new String(channel, StandardCharsets.UTF_8) + ", total channels: " + subscribedChannels);
+                logger.debug(">>>>>>>>>>> xxl-cache, Unsubscribed to channel " + new String(channel, StandardCharsets.UTF_8) + ", total channels: " + subscribedChannels);
             }
         };
 

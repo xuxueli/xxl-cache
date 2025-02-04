@@ -71,9 +71,9 @@ public class RedisManager {
                         .password(password)
                         .build();
                 jedisCluster = new JedisCluster(clusterNodes, clientConfig, maxAttempts, poolConfig);
-                logger.info("xxl-cache, RedisManager (JedisCluster) initialized successfully.");
+                logger.info(">>>>>>>>>>> xxl-cache, RedisManager (JedisCluster) initialized successfully.");
             } catch (Exception e) {
-                logger.error("RedisManager (JedisCluster) initialized error.", e);
+                logger.error(">>>>>>>>>>> RedisManager (JedisCluster) initialized error.", e);
                 throw new RuntimeException("RedisManager (JedisCluster) initialized error.", e);
             }
         } else {
@@ -87,9 +87,9 @@ public class RedisManager {
                         .build();
 
                 jedisPool = new JedisPool(poolConfig, clusterNodes.stream().findFirst().get(), clientConfig);
-                logger.info("xxl-cache, RedisManager (JedisPool) initialized successfully.");
+                logger.info(">>>>>>>>>>> xxl-cache, RedisManager (JedisPool) initialized successfully.");
             } catch (Exception e) {
-                logger.error("RedisManager (JedisPool) initialized error.", e);
+                logger.error(">>>>>>>>>>> RedisManager (JedisPool) initialized error.", e);
                 throw new RuntimeException("RedisManager (JedisPool) initialized error.", e);
             }
         }
@@ -109,9 +109,9 @@ public class RedisManager {
             if (jedisPool!=null) {
                 jedisPool.close();
             }
-            logger.info("xxl-cache, RedisManager stop finish.");
+            logger.info(">>>>>>>>>>> xxl-cache, RedisManager stop finish.");
         } catch (Exception e) {
-            logger.error("RedisManager stop error.", e);
+            logger.error(">>>>>>>>>>> RedisManager stop error.", e);
         }
     }
 

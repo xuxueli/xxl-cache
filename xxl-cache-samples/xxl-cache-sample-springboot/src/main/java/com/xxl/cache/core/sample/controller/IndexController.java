@@ -16,8 +16,11 @@ public class IndexController {
     @RequestMapping("")
     @ResponseBody
     public String index(){
-        String result = "hello world.";
-        return result;
+        String category = "user";
+        String key = "user03";
+
+        String value = (String) XxlCacheHelper.getCache(category).get(key);
+        return "key: " + key + "<br> value: " + value;
     }
 
     @RequestMapping("/set")
@@ -28,16 +31,6 @@ public class IndexController {
 
         XxlCacheHelper.getCache(category).set(key, value);
         return "Set successfully";
-    }
-
-    @RequestMapping("/get")
-    @ResponseBody
-    public Object get() {
-        String category = "user";
-        String key = "user03";
-
-        String value = (String) XxlCacheHelper.getCache(category).get(key);
-        return "key: " + key + "<br> value: " + value;
     }
 
     @RequestMapping("/delete")
