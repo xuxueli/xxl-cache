@@ -46,7 +46,10 @@ XXL-CACHE 是一个 多级缓存框架，高效组合本地缓存和分布式缓
 ### 1.4 环境
 - JDK：1.8+
 
-### 1.5 Maven依赖
+
+## 二、快速入门
+
+### 2.1 Maven引入
 ```
 <!-- https://mvnrepository.com/artifact/com.xuxueli/xxl-cache-core -->
 <dependency>
@@ -56,68 +59,46 @@ XXL-CACHE 是一个 多级缓存框架，高效组合本地缓存和分布式缓
 </dependency>
 ```
 
+### 2.2 XXL-CACHE 配置
 
-## 二、快速入门
+XXL-CACHE 支持与springboot无缝集成，同时也支持无框架方式使用（不依赖任意三方框架），多种接入方式可参考如下示例代码：
+- a、SpringBoot集成方式：示例代码位置 “./xxl-cache-samples/xxl-cache-sample-springboot”。
+- b、无框架方式：示例代码位置 “./xxl-cache-samples/xxl-cache-sample-frameless”。
 
-### 2.1 初始化“数据库”
-请下载项目源码并解压，获取 "调度数据库初始化SQL脚本"(脚本文件为: 源码解压根目录/xxl-cache/doc/db/xxl-cache-mysql.sql) 并执行即可。
+下文以 “SpringBoot集成方式” 介绍如何配置接入。
 
-### 2.2 编译源码
-解压源码,按照maven格式将源码导入IDE, 使用maven进行编译即可，源码结构如下图所示：
 
-![输入图片说明](https://www.xuxueli.com/doc/static/xxl-cache/images/img_WuIp.png "在这里输入图片标题")
+**配置文件：**
 
-- xxl-cache-admin：缓存管理平台
-- xxl-cache-core：公共依赖，为缓存服务抽象成公共RPC服务做准备
+- 配置文件位置：
+```
+/xxl-cache/xxl-cache-samples/xxl-cache-sample-springboot/src/main/resources/application.properties
+```
 
-### 2.3 配置部署“缓存管理平台”
-    项目：xxl-cache-admin
-    作用：查询和管理线上分布式缓存数据
+- 配置项：
+```
+# xxl-cache
+## L1缓存（本地）提供者，默认 caffeine
+xxl.cache.l1.provider=caffeine
+## L2缓存（分布式）提供者，默认 redis
+xxl.cache.l2.provider=redis
+## L2缓存（分布式）节点，多个节点用逗号分隔；示例 “127.0.0.1:6379,127.0.0.1:6380”
+xxl.cache.l2.nodes=127.0.0.1:6379
+## L2缓存（分布式）密码
+xxl.cache.l2.password=
+```
 
-- **A：配置“JDBC链接”**：请在下图所示位置配置jdbc链接地址，链接地址请保持和 2.1章节 所创建的调度数据库的地址一致。
-
-![输入图片说明](https://www.xuxueli.com/doc/static/xxl-cache/images/img_eJb0.png "在这里输入图片标题")
-
-- **B：配置“分布式缓存配置”**：请在下图所示位置配置分布树缓存信息，和线上项目中缓存配置务必保持一致。
-
-![输入图片说明](https://www.xuxueli.com/doc/static/xxl-cache/images/img_EPzL.png "在这里输入图片标题")
-
-配置详解：
-
-    # 缓存类型, 取值范围: Memcached, Redis；（如配置Redis，则Redis地址生效，Memcached配置则被忽略，可删除）
-    cache.type=Redis
-
-    # redis集群地址配置, 多个地址用逗号分隔（当cache.type为Redis时生效）
-    sharded.jedis.address=192.168.56.101:6379
-
-    # memcached集群地址配置, 多个地址用逗号分隔（当cache.type为Memcached时生效）
-    xmemcached.address=192.168.56.101:11211
-
-    # for login （登录账号）
-    login.username=admin
-    login.password=123456
-
-### 2.4 查询线上缓存
-
-进入“缓存管理”界面，点击“新增缓存模板界面”，配置模板信息
-![输入图片说明](https://www.xuxueli.com/doc/static/xxl-cache/images/img_3uNc.png "在这里输入图片标题")
-
-然后，点击缓存模板右侧的“缓存操作”按钮 
-![输入图片说明](https://www.xuxueli.com/doc/static/xxl-cache/images/img_aDwT.png "在这里输入图片标题")
-
-Set缓存数据，代码如下
-![输入图片说明](https://www.xuxueli.com/doc/static/xxl-cache/images/img_GwE5.png "在这里输入图片标题")
-
-点击“查询缓存”，即可直观查看缓存信息
-![输入图片说明](https://www.xuxueli.com/doc/static/xxl-cache/images/img_VuTP.png "在这里输入图片标题")
-
-## 二、缓存模板详解
-### 3.1 XXl-CACHE系统中常用名词（缓存属性）解释
-
-    缓存模板：生成缓存Key的模板，占位符用{0}、{1}、{2}依次替代；
-    缓存描述：缓存的描述说明；
-    缓存参数：“缓存模板”中占位符对应的参数，多个参数逗号分隔,依次替换占位符{0}、{1}、{2}的位置；
-    FinalKey：保存在分布式缓存服务中最终的Key的值，根据“缓存模板”和“缓存参数”生成；
+```
+@Bean(initMethod = "start", destroyMethod = "stop")
+public XxlCacheFactory xxlCacheFactory() {
+    XxlCacheFactory xxlCacheFactory = new XxlCacheFactory();
+    xxlCacheFactory.setL1Provider(l1Provider);
+    xxlCacheFactory.setL2Provider(l2Provider);
+    xxlCacheFactory.setNodes(nodes);
+    xxlCacheFactory.setPassword(password);
+    return xxlCacheFactory;
+}
+```
    
 ## 四、缓存管理
 略

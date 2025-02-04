@@ -21,8 +21,8 @@ public class XxlCacheSampleFrameless {
         XxlCacheFactory xxlCacheFactory = new XxlCacheFactory();
         xxlCacheFactory.setL1Provider(prop.getProperty("xxl.cache.l1.provider"));
         xxlCacheFactory.setL2Provider(prop.getProperty("xxl.cache.l2.provider"));
-        xxlCacheFactory.setNodes(prop.getProperty("xxl.cache.nodes"));
-        xxlCacheFactory.setPassword(prop.getProperty("xxl.cache.password"));
+        xxlCacheFactory.setNodes(prop.getProperty("xxl.cache.l2.nodes"));
+        xxlCacheFactory.setPassword(prop.getProperty("xxl.cache.l2.password"));
 
         xxlCacheFactory.start();
 

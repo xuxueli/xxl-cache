@@ -15,9 +15,9 @@ public class XxlCacheConf {
     private String l1Provider;
     @Value("${xxl.cache.l2.provider}")
     private String l2Provider;
-    @Value("${xxl.cache.nodes}")
+    @Value("${xxl.cache.l2.nodes}")
     private String nodes;
-    @Value("${xxl.cache.password}")
+    @Value("${xxl.cache.l2.password}")
     private String password;
 
     @Bean(initMethod = "start", destroyMethod = "stop")
