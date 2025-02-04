@@ -77,6 +77,10 @@ XXL-CACHE 支持与springboot无缝集成，同时也支持无框架方式使用
 # xxl-cache
 ## L1缓存（本地）提供者，默认 caffeine
 xxl.cache.l1.provider=caffeine
+## L1缓存最大容量，默认10000；
+xxl.cache.l1.maxSize=-1
+## L1缓存过期时间，单位秒，默认10min；
+xxl.cache.l1.expireAfterWrite=-1
 ## L2缓存（分布式）提供者，默认 redis
 xxl.cache.l2.provider=redis
 ## L2缓存节点配置，多个节点用逗号分隔；示例 “127.0.0.1:6379,127.0.0.1:6380”
@@ -100,6 +104,8 @@ xxl.cache.l2.password=
 public XxlCacheFactory xxlCacheFactory() {
     XxlCacheFactory xxlCacheFactory = new XxlCacheFactory();
     xxlCacheFactory.setL1Provider(l1Provider);
+    xxlCacheFactory.setMaxSize(maxSize);
+    xxlCacheFactory.setExpireAfterWrite(expireAfterWrite);
     xxlCacheFactory.setL2Provider(l2Provider);
     xxlCacheFactory.setNodes(nodes);
     xxlCacheFactory.setUser(user);

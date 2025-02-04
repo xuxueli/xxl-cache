@@ -6,16 +6,29 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * cache manager
+ *
+ * @author xuxueli 2025-02-04
+ */
 public class CacheManager {
 
     private volatile ConcurrentMap<String, Cache> cacheMap = new ConcurrentHashMap<String, Cache>();
     private volatile CacheTypeEnum cacheType = CacheTypeEnum.CAFFEINE;
+    private int maxSize = 10000;                // default max size
+    private long expireAfterWrite = 60 * 10;    // default expire, by second
 
     public CacheManager() {
     }
-    public CacheManager(CacheTypeEnum cacheType) {
+    public CacheManager(CacheTypeEnum cacheType, int maxSize, long expireAfterWrite) {
         if (cacheType != null) {
             this.cacheType = cacheType;
+        }
+        if (maxSize > 0) {
+            this.maxSize = maxSize;
+        }
+        if (expireAfterWrite > 0) {
+            this.expireAfterWrite = expireAfterWrite;
         }
     }
 
@@ -69,7 +82,7 @@ public class CacheManager {
      */
     private Cache createCache(CacheTypeEnum cacheEnum) {
         if (CacheTypeEnum.CAFFEINE == cacheEnum) {
-            return new CaffeineCache(100, 10, TimeUnit.MINUTES);
+            return new CaffeineCache(maxSize, expireAfterWrite, TimeUnit.SECONDS);
         } else {
             throw new RuntimeException("Cache type not supported");
         }

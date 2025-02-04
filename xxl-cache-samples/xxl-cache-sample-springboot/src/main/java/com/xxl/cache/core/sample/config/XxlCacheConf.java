@@ -13,6 +13,10 @@ public class XxlCacheConf {
 
     @Value("${xxl.cache.l1.provider}")
     private String l1Provider;
+    @Value("${xxl.cache.l1.maxSize}")
+    private int maxSize;
+    @Value("${xxl.cache.l1.expireAfterWrite}")
+    private long expireAfterWrite;
     @Value("${xxl.cache.l2.provider}")
     private String l2Provider;
     @Value("${xxl.cache.l2.nodes}")
@@ -26,6 +30,8 @@ public class XxlCacheConf {
     public XxlCacheFactory xxlCacheFactory() {
         XxlCacheFactory xxlCacheFactory = new XxlCacheFactory();
         xxlCacheFactory.setL1Provider(l1Provider);
+        xxlCacheFactory.setMaxSize(maxSize);
+        xxlCacheFactory.setExpireAfterWrite(expireAfterWrite);
         xxlCacheFactory.setL2Provider(l2Provider);
         xxlCacheFactory.setNodes(nodes);
         xxlCacheFactory.setUser(user);

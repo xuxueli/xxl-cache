@@ -13,7 +13,7 @@ public class CacheManagerTest {
         String useId = "id001";
 
         // 创建缓存管理器
-        CacheManager cacheManager = new CacheManager(CacheTypeEnum.CAFFEINE);
+        CacheManager cacheManager = new CacheManager(CacheTypeEnum.CAFFEINE, -1, -1);
         Cache cache = cacheManager.getCache(category);
 
         String key = CacheUtil.generateKey(category, useId);

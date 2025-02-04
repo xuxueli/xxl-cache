@@ -34,6 +34,9 @@ public class XxlCacheFactory {
     // -------------------- base --------------------
 
     private String l1Provider = CacheTypeEnum.CAFFEINE.getName();
+    private int maxSize;
+    private long expireAfterWrite;
+
     private String l2Provider = CacheTypeEnum.REDIS.getName();
     private String nodes;
     private String user;
@@ -46,6 +49,14 @@ public class XxlCacheFactory {
 
     public void setL1Provider(String l1Provider) {
         this.l1Provider = l1Provider;
+    }
+
+    public void setMaxSize(int maxSize) {
+        this.maxSize = maxSize;
+    }
+
+    public void setExpireAfterWrite(long expireAfterWrite) {
+        this.expireAfterWrite = expireAfterWrite;
     }
 
     public void setL2Provider(String l2Provider) {
@@ -86,7 +97,7 @@ public class XxlCacheFactory {
         if (!CacheTypeEnum.CAFFEINE.getName().equals(l1Provider)) {
             throw new RuntimeException("xxl-cache l1 cache provider invalid, l1Provider="+l1Provider);
         }
-        l1CacheManager = new CacheManager(CacheTypeEnum.CAFFEINE);
+        l1CacheManager = new CacheManager(CacheTypeEnum.CAFFEINE, maxSize, expireAfterWrite);
         l1CacheManager.start();
 
         // l2 cache

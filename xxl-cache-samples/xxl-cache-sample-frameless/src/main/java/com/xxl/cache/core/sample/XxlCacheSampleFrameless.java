@@ -26,7 +26,7 @@ public class XxlCacheSampleFrameless {
         XxlCacheHelper.getCache(category).set(key, "jack333");
         System.out.println(XxlCacheHelper.getCache(category).get(key));
 
-        TimeUnit.SECONDS.sleep(300);
+        TimeUnit.SECONDS.sleep(30);
 
         // stop
         xxlCacheFactory.stop();
@@ -39,6 +39,8 @@ public class XxlCacheSampleFrameless {
         // start
         XxlCacheFactory xxlCacheFactory = new XxlCacheFactory();
         xxlCacheFactory.setL1Provider(prop.getProperty("xxl.cache.l1.provider"));
+        xxlCacheFactory.setMaxSize(Integer.valueOf(prop.getProperty("xxl.cache.l1.maxSize")));
+        xxlCacheFactory.setExpireAfterWrite(Long.valueOf(prop.getProperty("xxl.cache.l1.expireAfterWrite")));
         xxlCacheFactory.setL2Provider(prop.getProperty("xxl.cache.l2.provider"));
         xxlCacheFactory.setNodes(prop.getProperty("xxl.cache.l2.nodes"));
         xxlCacheFactory.setUser(prop.getProperty("xxl.cache.l2.user"));
