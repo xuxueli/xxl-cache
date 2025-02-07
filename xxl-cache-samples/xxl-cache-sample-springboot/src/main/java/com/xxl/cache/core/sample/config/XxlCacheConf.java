@@ -19,6 +19,8 @@ public class XxlCacheConf {
     private long expireAfterWrite;
     @Value("${xxl.cache.l2.provider}")
     private String l2Provider;
+    @Value("${xxl.cache.l2.serializer}")
+    private String serializer;
     @Value("${xxl.cache.l2.nodes}")
     private String nodes;
     @Value("${xxl.cache.l2.user}")
@@ -33,6 +35,7 @@ public class XxlCacheConf {
         xxlCacheFactory.setMaxSize(maxSize);
         xxlCacheFactory.setExpireAfterWrite(expireAfterWrite);
         xxlCacheFactory.setL2Provider(l2Provider);
+        xxlCacheFactory.setSerializer(serializer);
         xxlCacheFactory.setNodes(nodes);
         xxlCacheFactory.setUser(user);
         xxlCacheFactory.setPassword(password);

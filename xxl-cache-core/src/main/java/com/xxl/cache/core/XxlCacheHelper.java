@@ -52,8 +52,17 @@ public class XxlCacheHelper {
      */
     public static class XxlCache {
 
+        /**
+         * cache category
+         */
         private final String category;
-        private final long survivalTime;      // -1 never expire;
+
+        /**
+         * survival time length, milliseconds. Expires after the specified time from the current
+         * -1 never expire;
+         */
+        private final long survivalTime;
+
         public XxlCache(String category, long survivalTime) {
             this.category = category;
             this.survivalTime = survivalTime;
@@ -91,7 +100,7 @@ public class XxlCacheHelper {
          * @param key
          * @return
          */
-        public Object get(String key) {
+        public <T> T get(String key) {
             String finalKey = CacheUtil.generateKey(category, key);
 
             // l1 cache
@@ -99,7 +108,7 @@ public class XxlCacheHelper {
             if (l1CacheValue != null) {
                 if (l1CacheValue.isValid()) {       // l1-cache, not support key-expore, need valid time
                     logger.debug(">>>>>>>>>>> xxl-cache, get from l1-cache, key: {}, value: {}", finalKey, l1CacheValue);
-                    return l1CacheValue.getValue();
+                    return (T) l1CacheValue.getValue();
                 }
                 return null;
             }
@@ -112,7 +121,7 @@ public class XxlCacheHelper {
                 // fill l1
                 XxlCacheFactory.getInstance().getL1CacheManager().getCache(category).set(finalKey, l2CacheValue);
                 logger.debug(">>>>>>>>>>> xxl-cache, lazy set l2-cache, key: {}, value: {}", finalKey, l2CacheValue);
-                return l2CacheValue.getValue();
+                return (T) l2CacheValue.getValue();
             } else {
 
                 // fill l1

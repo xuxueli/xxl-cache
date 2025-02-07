@@ -2,7 +2,8 @@ package com.xxl.cache.core.redis;
 
 import com.xxl.cache.core.cache.Cache;
 import com.xxl.cache.core.cache.CacheValue;
-import com.xxl.cache.core.util.SerializationUtil;
+import com.xxl.cache.core.serialize.Serializer;
+import com.xxl.cache.core.serialize.SerializerTypeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.*;
@@ -19,16 +20,18 @@ public class RedisCache implements Cache {
 
     private final JedisPool jedisPool;
     private final JedisCluster jedisCluster;
-    public RedisCache(JedisPool jedisPool, JedisCluster jedisCluster) {
+    private final Serializer serializer;
+    public RedisCache(JedisPool jedisPool, JedisCluster jedisCluster, Serializer serializer) {
         this.jedisPool = jedisPool;
         this.jedisCluster = jedisCluster;
+        this.serializer = serializer;
     }
 
     @Override
     public void set(String key, CacheValue cacheValue) {
         if (jedisCluster!=null) {
             try {
-                byte[] valueBytes = SerializationUtil.serialize(cacheValue);
+                byte[] valueBytes = serializer.serialize(cacheValue);
                 if (cacheValue.getSurvivalTime() < 0) {
                     jedisCluster.set(key.getBytes(StandardCharsets.UTF_8), valueBytes);
                 } else {
@@ -39,7 +42,7 @@ public class RedisCache implements Cache {
             }
         } else {
             try (Jedis jedis = jedisPool.getResource()) {
-                byte[] valueBytes = SerializationUtil.serialize(cacheValue);
+                byte[] valueBytes = serializer.serialize(cacheValue);
                 if (cacheValue.getSurvivalTime() < 0) {
                     jedis.set(key.getBytes(StandardCharsets.UTF_8), valueBytes);
                 } else {
@@ -60,7 +63,7 @@ public class RedisCache implements Cache {
                     return null;
                 }
 
-                return SerializationUtil.deserialize(valueBytes);
+                return serializer.deserialize(valueBytes);
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
             }
@@ -71,7 +74,7 @@ public class RedisCache implements Cache {
                     return null;
                 }
 
-                return SerializationUtil.deserialize(valueBytes);
+                return serializer.deserialize(valueBytes);
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
             }
@@ -133,7 +136,10 @@ public class RedisCache implements Cache {
      * @param message
      */
     public void publish(String channel, Object message) {
-        byte[] messageBytes = SerializationUtil.serialize(message);
+        // serialize message
+        byte[] messageBytes = SerializerTypeEnum.JAVA.getSerializer().serialize(message);
+
+        // invoke
         if (jedisCluster!=null) {
             try {
                 jedisCluster.publish(channel.getBytes(StandardCharsets.UTF_8), messageBytes);

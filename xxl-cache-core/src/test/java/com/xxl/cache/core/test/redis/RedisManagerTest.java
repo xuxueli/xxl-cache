@@ -12,7 +12,7 @@ public class RedisManagerTest {
         String user = null;
         String password = null;
 
-        RedisManager l2CacheManager = new RedisManager(nodes, user, password);
+        RedisManager l2CacheManager = new RedisManager(null,nodes, user, password);
         l2CacheManager.start();
 
         Cache cache = l2CacheManager.getCache();

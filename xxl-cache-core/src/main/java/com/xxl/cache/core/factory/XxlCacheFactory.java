@@ -6,8 +6,8 @@ import com.xxl.cache.core.cache.CacheTypeEnum;
 import com.xxl.cache.core.cache.CacheValue;
 import com.xxl.cache.core.redis.RedisCache;
 import com.xxl.cache.core.redis.RedisManager;
+import com.xxl.cache.core.serialize.SerializerTypeEnum;
 import com.xxl.cache.core.util.CacheUtil;
-import com.xxl.cache.core.util.SerializationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.BinaryJedisPubSub;
@@ -33,11 +33,12 @@ public class XxlCacheFactory {
 
     // -------------------- base --------------------
 
-    private String l1Provider = CacheTypeEnum.CAFFEINE.getName();
+    private String l1Provider = CacheTypeEnum.CAFFEINE.getType();
     private int maxSize;
     private long expireAfterWrite;
 
-    private String l2Provider = CacheTypeEnum.REDIS.getName();
+    private String l2Provider = CacheTypeEnum.REDIS.getType();
+    private String serializer = SerializerTypeEnum.JAVA.getType();
     private String nodes;
     private String user;
     private String password;
@@ -61,6 +62,10 @@ public class XxlCacheFactory {
 
     public void setL2Provider(String l2Provider) {
         this.l2Provider = l2Provider;
+    }
+
+    public void setSerializer(String serializer) {
+        this.serializer = serializer;
     }
 
     public void setNodes(String nodes) {
@@ -94,17 +99,17 @@ public class XxlCacheFactory {
     public void start() {
 
         // l1 cache
-        if (!CacheTypeEnum.CAFFEINE.getName().equals(l1Provider)) {
+        if (!CacheTypeEnum.CAFFEINE.getType().equals(l1Provider)) {
             throw new RuntimeException("xxl-cache l1 cache provider invalid, l1Provider="+l1Provider);
         }
         l1CacheManager = new CacheManager(CacheTypeEnum.CAFFEINE, maxSize, expireAfterWrite);
         l1CacheManager.start();
 
         // l2 cache
-        if (!CacheTypeEnum.REDIS.getName().equals(l2Provider)) {
+        if (!CacheTypeEnum.REDIS.getType().equals(l2Provider)) {
             throw new RuntimeException("xxl-cache l2 cache provider invalid, l2Provider="+l2Provider);
         }
-        l2CacheManager = new RedisManager(nodes, user, password);
+        l2CacheManager = new RedisManager(serializer, nodes, user, password);
         l2CacheManager.start();
 
         // broadcast, l1 > l2 > l1
@@ -160,9 +165,9 @@ public class XxlCacheFactory {
         jedisPubSub = new BinaryJedisPubSub() {
             @Override
             public void onMessage(byte[] channel, byte[] message) {
-                String channelStr = new String(channel, StandardCharsets.UTF_8);
-                CacheBroadcastMessage broadcastMessage = SerializationUtil.deserialize(message);
 
+                // deserialize message
+                CacheBroadcastMessage broadcastMessage = SerializerTypeEnum.JAVA.getSerializer().deserialize(message);
 
                 // refresh by key
                 String finalKey = CacheUtil.generateKey(broadcastMessage.getCategory(), broadcastMessage.getKey());

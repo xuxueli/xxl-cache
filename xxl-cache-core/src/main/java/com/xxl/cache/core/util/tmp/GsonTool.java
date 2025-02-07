@@ -1,3 +1,4 @@
+/*
 package com.xxl.cache.core.util;
 
 import com.google.gson.Gson;
@@ -10,11 +11,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+*/
 /**
  * gson tool
  *
  * @author xuxueli 2020-04-11 20:56:31
- */
+ *//*
+
 public class GsonTool {
 
     private static Gson gson = null;
@@ -22,7 +25,8 @@ public class GsonTool {
         gson= new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").disableHtmlEscaping().create();
     }
 
-    /**
+    */
+/**
      * Object 转成 json
      *
      * <pre>
@@ -31,12 +35,14 @@ public class GsonTool {
      *
      * @param src
      * @return String
-     */
+     *//*
+
     public static String toJson(Object src) {
         return gson.toJson(src);
     }
 
-    /**
+    */
+/**
      * json 转成 特定的cls的Object
      *
      * <pre>
@@ -46,12 +52,14 @@ public class GsonTool {
      * @param json
      * @param classOfT
      * @return
-     */
+     *//*
+
     public static <T> T fromJson(String json, Class<T> classOfT) {
         return gson.fromJson(json, classOfT);
     }
 
-    /**
+    */
+/**
      * json 转成 特定的 rawClass<classOfT> 的Object
      *
      * <pre>
@@ -62,7 +70,8 @@ public class GsonTool {
      * @param classOfT
      * @param argClassOfT
      * @return
-     */
+     *//*
+
     public static <T> T fromJson(String json, Class<T> classOfT, Class argClassOfT) {
         Type type = new ParameterizedType4ReturnT(classOfT, new Class[]{argClassOfT});
         return gson.fromJson(json, type);
@@ -86,7 +95,8 @@ public class GsonTool {
         public Type getOwnerType() {return null;}
     }
 
-    /**
+    */
+/**
      * json 转成 特定的cls的 ArrayList
      *
      * <pre>
@@ -96,13 +106,15 @@ public class GsonTool {
      * @param json
      * @param classOfT
      * @return
-     */
+     *//*
+
     public static <T> ArrayList<T> fromJsonList(String json, Class<T> classOfT) {
         Type type = TypeToken.getParameterized(ArrayList.class, classOfT).getType();
         return gson.fromJson(json, type);
     }
 
-    /**
+    */
+/**
      * json 转成 特定的cls的 HashMap
      *
      * <pre>
@@ -115,10 +127,12 @@ public class GsonTool {
      * @return
      * @param <K>
      * @param <V>
-     */
+     *//*
+
     public static <K, V> HashMap<K, V> fromJsonMap(String json, Class<K> keyClass, Class<V> valueClass) {
         Type type = TypeToken.getParameterized(HashMap.class, keyClass, valueClass).getType();
         return gson.fromJson(json, type);
     }
 
 }
+*/

@@ -1,6 +1,8 @@
 package com.xxl.cache.core.redis;
 
 import com.xxl.cache.core.cache.Cache;
+import com.xxl.cache.core.serialize.Serializer;
+import com.xxl.cache.core.serialize.SerializerTypeEnum;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,17 +19,20 @@ import java.util.Set;
 public class RedisManager {
     private static Logger logger = LoggerFactory.getLogger(RedisManager.class);
 
+    private String serializerType;
     private String nodes;
     private String user;
     private String password;
 
+    private Serializer serializer = SerializerTypeEnum.JAVA.getSerializer();
     private Set<HostAndPort> clusterNodes = new HashSet<>();
     private int connectionTimeout = 2000;
     private int soTimeout = 2000;
     private int maxAttempts = 3;
 
 
-    public RedisManager(String nodes, String user, String password) {
+    public RedisManager(String serializerType, String nodes, String user, String password) {
+        this.serializerType = serializerType;
         this.nodes = nodes;
         if (user!=null && !user.trim().isEmpty()) {
             this.user = user;
@@ -37,6 +42,10 @@ public class RedisManager {
         }
 
         // parse
+        SerializerTypeEnum serializerTypeEnum = SerializerTypeEnum.match(this.serializerType);
+        if (serializerTypeEnum != null) {
+            serializer = serializerTypeEnum.getSerializer();
+        }
         if (nodes!=null && !nodes.trim().isEmpty()) {
             for (String node : nodes.split(",")) {
                 String[] parts = node.split(":");
@@ -101,7 +110,7 @@ public class RedisManager {
         }
 
         // cache
-        defaultRedisCache = new RedisCache(jedisPool, jedisCluster);
+        defaultRedisCache = new RedisCache(jedisPool, jedisCluster, serializer);
     }
 
     /**

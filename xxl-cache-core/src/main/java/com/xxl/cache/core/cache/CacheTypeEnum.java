@@ -4,19 +4,19 @@ public enum CacheTypeEnum {
     REDIS("redis"),
     CAFFEINE("caffeine");
 
-    private String name;
+    private String type;
 
-    CacheTypeEnum(String name) {
-        this.name = name;
+    CacheTypeEnum(String type) {
+        this.type = type;
     }
 
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
     public static CacheTypeEnum match(String name) {
         for (CacheTypeEnum cacheTypeEnum : CacheTypeEnum.values()) {
-            if (cacheTypeEnum.getName().equals(name)) {
+            if (cacheTypeEnum.getType().equals(name)) {
                 return cacheTypeEnum;
             }
         }

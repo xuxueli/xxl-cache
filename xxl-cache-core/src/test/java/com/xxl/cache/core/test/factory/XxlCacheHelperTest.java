@@ -11,8 +11,8 @@ public class XxlCacheHelperTest {
     public static void main(String[] args) throws InterruptedException {
         // start
         XxlCacheFactory xxlCacheFactory = new XxlCacheFactory();
-        xxlCacheFactory.setL1Provider(CacheTypeEnum.CAFFEINE.getName());
-        xxlCacheFactory.setL2Provider(CacheTypeEnum.REDIS.getName());
+        xxlCacheFactory.setL1Provider(CacheTypeEnum.CAFFEINE.getType());
+        xxlCacheFactory.setL2Provider(CacheTypeEnum.REDIS.getType());
         xxlCacheFactory.setNodes("127.0.0.1:6379");
         xxlCacheFactory.setPassword(null);
 
@@ -22,11 +22,15 @@ public class XxlCacheHelperTest {
         String category = "user";
         String key = "user03";
 
-        XxlCacheHelper.getCache(category).del(key);
-        System.out.println(XxlCacheHelper.getCache(category).get(key));
+        XxlCacheHelper.XxlCache xxlCache = XxlCacheHelper.getCache(category);
 
-        XxlCacheHelper.getCache(category).set(key, "jack333");
-        System.out.println(XxlCacheHelper.getCache(category).get(key));
+        xxlCache.del(key);
+        String val = xxlCache.get(key);
+        System.out.println(val);
+
+        xxlCache.set(key, "jack333");
+        val = xxlCache.get(key);
+        System.out.println(val);
 
         TimeUnit.SECONDS.sleep(3);
 

@@ -20,11 +20,26 @@ public class XxlCacheSampleFrameless {
         String category = "user";
         String key = "user03";
 
-        XxlCacheHelper.getCache(category).del(key);
-        System.out.println(XxlCacheHelper.getCache(category).get(key));
+        /**
+         * 1、定义缓存对象，并指定 “缓存category + 过期时间”
+         */
+        XxlCacheHelper.XxlCache xxlCache = XxlCacheHelper.getCache(category);
 
-        XxlCacheHelper.getCache(category).set(key, "jack333");
-        System.out.println(XxlCacheHelper.getCache(category).get(key));
+        /**
+         * 2、缓存删：按照 L1 -> L2 顺序依次删缓存，同时借助内部广播机制更新全局L1节点缓存；
+         */
+        xxlCache.del(key);
+        System.out.println((String) xxlCache.get(key));
+
+        /**
+         * 3、缓存写：按照 L1 -> L2 顺序依次写缓存，同时借助内部广播机制更新全局L1节点缓存；
+         */
+        xxlCache.set(key, "jack333");
+
+        /**
+         * 4、缓存读：按照 L1 -> L2 顺序依次读取缓存，如果L1存在缓存则返回，否则读取L2缓存并同步L1；
+         */
+        System.out.println((String) xxlCache.get(key));
 
         TimeUnit.SECONDS.sleep(30);
 
@@ -42,6 +57,7 @@ public class XxlCacheSampleFrameless {
         xxlCacheFactory.setMaxSize(Integer.valueOf(prop.getProperty("xxl.cache.l1.maxSize")));
         xxlCacheFactory.setExpireAfterWrite(Long.valueOf(prop.getProperty("xxl.cache.l1.expireAfterWrite")));
         xxlCacheFactory.setL2Provider(prop.getProperty("xxl.cache.l2.provider"));
+        xxlCacheFactory.setSerializer(prop.getProperty("xxl.cache.l2.serializer"));
         xxlCacheFactory.setNodes(prop.getProperty("xxl.cache.l2.nodes"));
         xxlCacheFactory.setUser(prop.getProperty("xxl.cache.l2.user"));
         xxlCacheFactory.setPassword(prop.getProperty("xxl.cache.l2.password"));

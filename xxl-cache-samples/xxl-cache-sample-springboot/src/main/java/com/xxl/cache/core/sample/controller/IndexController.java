@@ -26,7 +26,7 @@ public class IndexController {
         /**
          * 2、缓存读：按照 L1 -> L2 顺序依次读取缓存，如果L1存在缓存则返回，否则读取L2缓存并同步L1；
          */
-        String value = (String) userCache.get(key);
+        String value = userCache.get(key);
         return "key: " + key + "<br> value: " + value;
     }
 

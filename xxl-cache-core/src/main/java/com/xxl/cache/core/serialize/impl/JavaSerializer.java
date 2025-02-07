@@ -1,17 +1,25 @@
-package com.xxl.cache.core.util;
+package com.xxl.cache.core.serialize.impl;
+
+import com.xxl.cache.core.serialize.Serializer;
 
 import java.io.*;
 
-public class SerializationUtil {
+/**
+ * serializer
+ *
+ * @author xuxueli 2025-02-07
+ */
+public class JavaSerializer extends Serializer {
 
     /**
      * serialize
      *
      * @param obj
      * @return
-     * @throws IOException
+     * @param <T>
      */
-    public static byte[] serialize(Object obj) {
+    @Override
+    public <T> byte[] serialize(T obj) {
         if (obj == null) {
             throw new RuntimeException("Cannot serialize null object");
         }
@@ -24,16 +32,8 @@ public class SerializationUtil {
         }
     }
 
-    /**
-     * deserialize
-     *
-     * @param bytes
-     * @return
-     * @param <T>
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
-    public static <T> T deserialize(byte[] bytes) {
+    @Override
+    public <T> T deserialize(byte[] bytes) {
         if (bytes == null) {
             throw new RuntimeException("Cannot deserialize null byte array");
         }
@@ -44,4 +44,5 @@ public class SerializationUtil {
             throw new RuntimeException("Failed to deserialize object: " + e.getMessage(), e);
         }
     }
+
 }
