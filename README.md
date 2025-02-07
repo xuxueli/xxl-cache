@@ -56,7 +56,7 @@ Contributions are welcome! Open a pull request to fix a bug, or open an [Issue](
 欢迎参与项目贡献！比如提交PR修复一个bug，或者新建 [Issue](https://github.com/xuxueli/xxl-cache/issues/) 讨论新特性或者变更。
 
 ## 接入登记
-Contributions are welcome! Open a pull request to fix a bug, or open an [Issue](https://github.com/xuxueli/xxl-cache/issues/) to discuss a new feature or change.
+Using the project's users, welcome to the registered address (https://github.com/xuxueli/xxl-cache/issues/1) to register, registration only for product promotion.
 
 更多接入的公司，欢迎在 [登记地址](https://github.com/xuxueli/xxl-cache/issues/1 ) 登记，登记仅仅为了产品推广。
 
