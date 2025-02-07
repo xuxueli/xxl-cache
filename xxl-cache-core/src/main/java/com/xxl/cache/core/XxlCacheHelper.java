@@ -18,7 +18,8 @@ public class XxlCacheHelper {
     /**
      * get cache by category
      *
-     * @param category
+     * @param category      cache category
+     * @param survivalTime  survival time length, milliseconds. Expires after the specified time from the current
      * @return
      */
     public static XxlCache getCache(String category, long survivalTime) {
