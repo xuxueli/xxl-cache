@@ -18,7 +18,7 @@ public class CacheValue implements Serializable {
     private Object value;
 
     /**
-     * survival time length. Expires after the specified time from the current
+     * survival time length, milliseconds. Expires after the specified time from the current
      */
     private long survivalTime;
 

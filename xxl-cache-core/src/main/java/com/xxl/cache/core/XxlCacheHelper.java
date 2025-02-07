@@ -52,8 +52,8 @@ public class XxlCacheHelper {
      */
     public static class XxlCache {
 
-        private String category;
-        private long survivalTime;      // -1 never expire;
+        private final String category;
+        private final long survivalTime;      // -1 never expire;
         public XxlCache(String category, long survivalTime) {
             this.category = category;
             this.survivalTime = survivalTime;
