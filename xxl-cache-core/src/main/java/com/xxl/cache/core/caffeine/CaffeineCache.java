@@ -28,7 +28,7 @@ public class CaffeineCache implements Cache {
     public CaffeineCache(int maxSize, long expireAfterWrite, TimeUnit timeUnit) {
         this.cache = Caffeine.newBuilder()
                 .maximumSize(maxSize)
-                .expireAfterWrite(expireAfterWrite, timeUnit)   // all same expire
+                .expireAfterWrite(expireAfterWrite, timeUnit)   // all same expire, only for sync-all
                 .build();
     }
 
