@@ -23,25 +23,27 @@ public class XxlCacheSampleFrameless {
         /**
          * 1、定义缓存对象，并指定 “缓存category + 过期时间”
          */
-        XxlCacheHelper.XxlCache xxlCache = XxlCacheHelper.getCache(category);
+        XxlCacheHelper.XxlCache userCache = XxlCacheHelper.getCache(category);
 
         /**
          * 2、缓存删：按照 L1 -> L2 顺序依次删缓存，同时借助内部广播机制更新全局L1节点缓存；
          */
-        xxlCache.del(key);
-        System.out.println((String) xxlCache.get(key));
+        userCache.del(key);
+        String value = userCache.get(key);
+        System.out.println("value = " + value);
 
         /**
          * 3、缓存写：按照 L1 -> L2 顺序依次写缓存，同时借助内部广播机制更新全局L1节点缓存；
          */
-        xxlCache.set(key, "jack333");
+        userCache.set(key, "jack333");
 
         /**
          * 4、缓存读：按照 L1 -> L2 顺序依次读取缓存，如果L1存在缓存则返回，否则读取L2缓存并同步L1；
          */
-        System.out.println((String) xxlCache.get(key));
+        value = userCache.get(key);
+        System.out.println("value = " + value);
 
-        TimeUnit.SECONDS.sleep(30);
+        TimeUnit.SECONDS.sleep(300);
 
         // stop
         xxlCacheFactory.stop();

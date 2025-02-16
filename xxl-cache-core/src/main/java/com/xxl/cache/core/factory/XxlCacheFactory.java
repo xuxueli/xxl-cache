@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import redis.clients.jedis.BinaryJedisPubSub;
 
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
 
 /**
  * xxl-cache factory
@@ -82,6 +83,7 @@ public class XxlCacheFactory {
 
     // -------------------- start --------------------
 
+    private volatile boolean toStop = false;
     private CacheManager l1CacheManager;
     private RedisManager l2CacheManager;
 
@@ -97,6 +99,8 @@ public class XxlCacheFactory {
      * start
      */
     public void start() {
+        // mark start
+        toStop = false;
 
         // l1 cache
         if (!CacheTypeEnum.CAFFEINE.getType().equals(l1Provider)) {
@@ -118,6 +122,9 @@ public class XxlCacheFactory {
     }
 
     public void stop() {
+        // mark stop
+        toStop = true;
+
         // l1 cache
         if (l1CacheManager != null) {
             l1CacheManager.stop();
@@ -196,8 +203,19 @@ public class XxlCacheFactory {
         broadcastListenerThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                RedisCache redisCache = (RedisCache) l2CacheManager.getCache();
-                redisCache.subscribe(channel, jedisPubSub);
+                while (!toStop) {
+                    // do subscribe, block until failure
+                    try {
+                        RedisCache redisCache = (RedisCache) l2CacheManager.getCache();
+                        redisCache.subscribe(channel, jedisPubSub);
+                    } catch (Exception e) {
+                        try {
+                            TimeUnit.SECONDS.sleep(3);
+                        } catch (InterruptedException e1) {
+                            // ignore
+                        }
+                    }
+                }
             }
         });
         broadcastListenerThread.setDaemon(true);
