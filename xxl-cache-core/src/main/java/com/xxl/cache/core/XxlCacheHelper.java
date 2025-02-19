@@ -18,30 +18,22 @@ public class XxlCacheHelper {
     /**
      * get cache by category
      *
-     * @param category      cache category
-     * @param survivalTime  survival time length, milliseconds. Expires after the specified time from the current
-     * @return
+     * @param category     cache category
+     * @param survivalTime survival time length, milliseconds. Expires after the specified time from the current
+     * @return {@link XxlCache}
      */
     public static XxlCache getCache(String category, long survivalTime) {
         if (category == null || category.isEmpty()) {
             throw new IllegalArgumentException("Category cannot be null or empty");
         }
 
-        XxlCache cache = cacheMap.get(category);
-        if (cache == null) {
-            synchronized (cacheMap) {
-                cache = cacheMap.get(category);
-                if (cache == null) {
-                    try {
-                        cache = new XxlCache(category, survivalTime);
-                        cacheMap.put(category, cache);
-                    } catch (Exception e) {
-                        throw new RuntimeException("Failed to create cache for category: " + category, e);
-                    }
-                }
+        return cacheMap.computeIfAbsent(category, k -> {
+            try {
+                return new XxlCache(category, survivalTime);
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to create cache for category: " + category, e);
             }
-        }
-        return cache;
+        });
     }
 
     public static XxlCache getCache(String category) {
@@ -68,6 +60,7 @@ public class XxlCacheHelper {
             this.category = category;
             this.survivalTime = survivalTime;
         }
+
         public XxlCache(String category) {
             this.category = category;
             this.survivalTime = -1;
