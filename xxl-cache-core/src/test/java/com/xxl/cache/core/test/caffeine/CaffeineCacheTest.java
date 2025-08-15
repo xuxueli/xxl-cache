@@ -3,36 +3,40 @@ package com.xxl.cache.core.test.caffeine;
 import com.xxl.cache.core.cache.CacheValue;
 import com.xxl.cache.core.caffeine.CaffeineCache;
 import com.xxl.cache.core.util.CacheUtil;
+import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.TimeUnit;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class CaffeineCacheTest {
 
-    public static void main(String[] args) {
+    @Test
+    public void testCaffeineCacheCRUD() {
         String category = "user";
         String useId = "id001";
 
-        // 创建缓存实例
         CaffeineCache caffeineCache = new CaffeineCache(100, 10, TimeUnit.MINUTES);
-
         String key = CacheUtil.generateKey(category, useId);
+        CacheValue cacheValue = new CacheValue("Alice");
 
         // 设置值
-        caffeineCache.set(key, new CacheValue("Alice"));
+        caffeineCache.set(key, cacheValue);
 
-        // 获取值
-        System.out.println(caffeineCache.get(key)); // 输出: Alice
+        // 验证取值
+        CacheValue retrievedValue = caffeineCache.get(key);
+        assertNotNull(retrievedValue);
+        assertEquals("Alice", retrievedValue.getValue());
 
-        // 检查键是否存在
-        System.out.println(caffeineCache.exists(key)); // 输出: true
+        // 验证存在状态
+        assertTrue(caffeineCache.exists(key));
 
-        // 删除键
+        // 删除验证
         caffeineCache.del(key);
-        System.out.println(caffeineCache.exists(key)); // 输出: false
+        assertNull(caffeineCache.exists(key));
 
-        // 清空缓存
-        //caffeineCache.clear();
-        //System.out.println(caffeineCache.size()); // 输出: 0
+        // 清空缓存验证
+//        caffeineCache.clear();
+//        assertEquals(0, caffeineCache.size());
     }
-
 }
