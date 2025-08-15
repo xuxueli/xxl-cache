@@ -1,7 +1,7 @@
 # 《多级缓存框架XXL-CACHE》
 
 [![Actions Status](https://github.com/xuxueli/xxl-cache/workflows/Java%20CI/badge.svg)](https://github.com/xuxueli/xxl-cache/actions)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.xuxueli/xxl-cache-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.xuxueli/xxl-cache-core/)
+[![Maven Central](https://img.shields.io/maven-central/v/com.xuxueli/xxl-cache-core)](https://central.sonatype.com/artifact/com.xuxueli/xxl-cache-core/)
 [![GitHub release](https://img.shields.io/github/release/xuxueli/xxl-cache.svg)](https://github.com/xuxueli/xxl-cache/releases)
 [![GitHub stars](https://img.shields.io/github/stars/xuxueli/xxl-cache)](https://github.com/xuxueli/xxl-cache/)
 ![License](https://img.shields.io/github/license/xuxueli/xxl-cache.svg)
