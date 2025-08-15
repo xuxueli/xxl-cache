@@ -34,6 +34,22 @@ public class XxlCacheHelper {
                 throw new RuntimeException("Failed to create cache for category: " + category, e);
             }
         });
+
+        /*XxlCache cache = cacheMap.get(category);
+        if (cache == null) {
+            synchronized (cacheMap) {
+                cache = cacheMap.get(category);
+                if (cache == null) {
+                    try {
+                        cache = new XxlCache(category, survivalTime);
+                        cacheMap.put(category, cache);
+                    } catch (Exception e) {
+                        throw new RuntimeException("Failed to create cache for category: " + category, e);
+                    }
+                }
+            }
+        }
+        return cache;*/
     }
 
     public static XxlCache getCache(String category) {

@@ -213,9 +213,11 @@ XXL-CACHE 定位多级缓存框架，高效组合本地缓存和分布式缓存(
 - 1、【增强】多序列化协议支持：针对L2缓存，组件化抽象Serializer，可灵活扩展更多序列化协议；如 JDK、HESSIAN2、JSON、PROTOSTUFF、KRYO 等；
 - 2、【优化】移除冗余依赖，精简Core体积；
 
-### v1.2.1 Release Notes[迭代中]
+### v1.3.0 Release Notes[2025-08-16]
 - 1、【优化】L1缓存广播发布/订阅断连重连优化(ISSUE-32)。；
 - 2、【升级】多个依赖升级最新版本，如jedis、caffeine等；
+- 3、【重构】重构 getCache 方法并优化性能（PR-28）
+
 
 ### TODO LIST
 - 1、缓存监控：L1、L2缓存命中率，L1缓存容量、内容占用等；
