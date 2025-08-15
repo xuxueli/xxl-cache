@@ -5,35 +5,41 @@ import com.xxl.cache.core.cache.CacheManager;
 import com.xxl.cache.core.cache.CacheTypeEnum;
 import com.xxl.cache.core.cache.CacheValue;
 import com.xxl.cache.core.util.CacheUtil;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CacheManagerTest {
 
-    public static void main(String[] args) {
+    @Test
+    public void testCacheManagerCRUD() {
         String category = "user";
         String useId = "id001";
 
         // 创建缓存管理器
         CacheManager cacheManager = new CacheManager(CacheTypeEnum.CAFFEINE, -1, -1);
         Cache cache = cacheManager.getCache(category);
-
         String key = CacheUtil.generateKey(category, useId);
+        CacheValue cacheValue = new CacheValue("Alice");
 
         // 设置值
-        cache.set(key, new CacheValue("Alice"));
+        cache.set(key, cacheValue);
 
-        // 获取值
-        System.out.println(cache.get(key)); // 输出: Alice
+        // 获取值并验证
+        CacheValue retrievedValue = cache.get(key);
+        assertNotNull(retrievedValue);
+        assertEquals("Alice", retrievedValue.getValue());
 
-        // 检查键是否存在
-        System.out.println(cache.exists(key)); // 输出: true
+        // 检查键是否存在并验证
+        assertTrue(cache.exists(key));
 
-        // 删除键
+        // 删除键并验证
         cache.del(key);
-        System.out.println(cache.exists(key)); // 输出: false
-
-        // 清空缓存
-        /*cache.clear();
-        System.out.println(cache.size()); // 输出: 0*/
+        // 缓存不存在，返回的是 null
+        assertNull(cache.exists(key));
+        // 清空缓存并验证
+//        cache.clear();
+//        assertEquals(0, cache.size());
     }
 
 }
