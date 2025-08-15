@@ -137,6 +137,11 @@
 						<extensions>true</extensions>
 						<configuration>
 							<publishingServerId>central</publishingServerId>
+							<excludeArtifacts>
+								<artifact>xxl-cache-samples</artifact>
+								<artifact>xxl-cache-sample-frameless</artifact>
+								<artifact>xxl-cache-sample-springboot</artifact>
+							</excludeArtifacts>
 						</configuration>
 					</plugin>
 				</plugins>

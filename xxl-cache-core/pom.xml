@@ -11,6 +11,10 @@
     <artifactId>xxl-cache-core</artifactId>
     <packaging>jar</packaging>
 
+    <name>${project.artifactId}</name>
+    <description>A two-level cache framework.</description>
+    <url>https://www.xuxueli.com/</url>
+
     <dependencies>
         <!-- slf4j -->
         <dependency>
