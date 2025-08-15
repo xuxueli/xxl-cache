@@ -45,7 +45,8 @@ XXL-CACHE 是一个 多级缓存框架，高效组合本地缓存和分布式缓
 - [社区交流](https://www.xuxueli.com/page/community.html)
 
 ### 1.4 环境
-- JDK：1.8+
+- Maven：3+
+- Jdk：17+ (说明：版本1.4开始要求Jdk17；版本1.3及以下支持Jdk1.8)
 
 
 ## 二、快速入门
