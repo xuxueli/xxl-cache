@@ -37,9 +37,10 @@ public class CacheManagerTest {
         cache.del(key);
         // 缓存不存在，返回的是 null
         assertNull(cache.exists(key));
+
         // 清空缓存并验证
-//        cache.clear();
-//        assertEquals(0, cache.size());
+        //cache.clear();
+        //assertEquals(0, cache.size());
     }
 
 }

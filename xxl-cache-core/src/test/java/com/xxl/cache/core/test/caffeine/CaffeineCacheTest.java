@@ -36,7 +36,7 @@ public class CaffeineCacheTest {
         assertNull(caffeineCache.exists(key));
 
         // 清空缓存验证
-//        caffeineCache.clear();
-//        assertEquals(0, caffeineCache.size());
+        //caffeineCache.clear();
+        //assertEquals(0, caffeineCache.size());
     }
 }
