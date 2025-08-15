@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.xuxueli</groupId>
         <artifactId>xxl-cache</artifactId>
-        <version>1.4.0</version>
+        <version>1.4.1-SNAPSHOT</version>
     </parent>
     <artifactId>xxl-cache-samples</artifactId>
     <packaging>pom</packaging>
