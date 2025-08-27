@@ -1,33 +1,28 @@
 package com.xxl.cache.core.serialize.impl;
 
+import com.google.gson.Gson;
 import com.xxl.cache.core.serialize.Serializer;
 
-import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 /**
- * serializer
+ * GsonSerializer
  *
- * @author xuxueli 2025-02-07
+ * @author aruato 2025-08-27
  */
-public class JavaSerializer extends Serializer {
+public class GsonSerializer extends Serializer {
 
-    /**
-     * serialize
-     *
-     * @param obj
-     * @return
-     * @param <T>
-     */
+    private static final Gson GSON = new Gson();
+
     @Override
     public <T> byte[] serialize(T obj) {
         if (obj == null) {
             throw new RuntimeException("Cannot serialize null object");
         }
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-             ObjectOutputStream oos = new ObjectOutputStream(baos)) {
-            oos.writeObject(obj);
-            return baos.toByteArray();
-        } catch (IOException e) {
+        try {
+            String json = GSON.toJson(obj);
+            return json.getBytes(StandardCharsets.UTF_8);
+        } catch (Exception e) {
             throw new RuntimeException("Failed to serialize object: " + e.getMessage(), e);
         }
     }
@@ -37,9 +32,9 @@ public class JavaSerializer extends Serializer {
         if (bytes == null) {
             throw new RuntimeException("Cannot deserialize null byte array");
         }
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-             ObjectInputStream ois = new ObjectInputStream(bais)) {
-            return (T) ois.readObject();
+        try {
+            String json = new String(bytes, StandardCharsets.UTF_8);
+            return (T) GSON.fromJson(json, clazz);
         } catch (Exception e) {
             throw new RuntimeException("Failed to deserialize object: " + e.getMessage(), e);
         }

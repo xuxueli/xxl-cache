@@ -3,7 +3,6 @@ package com.xxl.cache.core.redis;
 import com.xxl.cache.core.cache.Cache;
 import com.xxl.cache.core.cache.CacheValue;
 import com.xxl.cache.core.serialize.Serializer;
-import com.xxl.cache.core.serialize.SerializerTypeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.*;
@@ -63,7 +62,7 @@ public class RedisCache implements Cache {
                     return null;
                 }
 
-                return serializer.deserialize(valueBytes);
+                return serializer.deserialize(valueBytes, CacheValue.class);
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
             }
@@ -74,7 +73,7 @@ public class RedisCache implements Cache {
                     return null;
                 }
 
-                return serializer.deserialize(valueBytes);
+                return serializer.deserialize(valueBytes, CacheValue.class);
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
             }
@@ -137,7 +136,7 @@ public class RedisCache implements Cache {
      */
     public void publish(String channel, Object message) {
         // serialize message
-        byte[] messageBytes = SerializerTypeEnum.JAVA.getSerializer().serialize(message);
+        byte[] messageBytes = this.serializer.serialize(message);
 
         // invoke
         if (jedisCluster!=null) {

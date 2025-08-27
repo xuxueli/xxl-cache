@@ -1,5 +1,6 @@
 package com.xxl.cache.core.serialize;
 
+import com.xxl.cache.core.serialize.impl.GsonSerializer;
 import com.xxl.cache.core.serialize.impl.JavaSerializer;
 
 /**
@@ -9,7 +10,8 @@ import com.xxl.cache.core.serialize.impl.JavaSerializer;
  */
 public enum SerializerTypeEnum {
 
-    JAVA("java", new JavaSerializer());
+    JAVA("java", new JavaSerializer()),
+    GSON("gson", new GsonSerializer());
 
     private String type;
     private Serializer serializer;
