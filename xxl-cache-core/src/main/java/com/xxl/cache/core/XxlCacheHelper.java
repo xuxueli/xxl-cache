@@ -171,17 +171,17 @@ public class XxlCacheHelper {
             String finalKey = CacheUtil.generateKey(category, key);
 
             // l1 cache
-            Boolean l1value = XxlCacheFactory.getInstance().getL1CacheManager().getCache(category).exists(finalKey);
-            if (l1value == null) {
+            boolean l1Exists = XxlCacheFactory.getInstance().getL1CacheManager().getCache(category).exists(finalKey);
 
+            if (!l1Exists) {
                 // fill l1 from l2
                 get(key);
+
+                // recheck L1 after fill
+                l1Exists = XxlCacheFactory.getInstance().getL1CacheManager().getCache(category).exists(finalKey);
             }
 
-            // l1 cache
-            l1value = XxlCacheFactory.getInstance().getL1CacheManager().getCache(category).exists(finalKey);
-
-            return l1value;
+            return l1Exists;
         }
 
     }

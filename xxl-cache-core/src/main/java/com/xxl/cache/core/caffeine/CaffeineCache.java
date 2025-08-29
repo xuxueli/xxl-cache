@@ -49,12 +49,10 @@ public class CaffeineCache implements Cache {
     }
 
     @Override
-    public Boolean exists(String key) {
+    public boolean exists(String key) {
         //boolean exists = cache.getIfPresent(key) != null;
         CacheValue cacheValue = get(key);
-        Boolean exists = cacheValue==null ?null: (cacheValue.getValue()!=null && cacheValue.isValid());
-
-        return exists;
+        return cacheValue != null && cacheValue.getValue() != null && cacheValue.isValid();
     }
 
     /*@Override
