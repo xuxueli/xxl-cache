@@ -43,7 +43,7 @@ public class XxlCacheFactory {
     private String nodes;
     private String user;
     private String password;
-
+    private int redisDbIndex;
     public XxlCacheFactory() {
         // instance
         xxlConfFactory = this;
@@ -81,6 +81,11 @@ public class XxlCacheFactory {
         this.password = password;
     }
 
+
+    public void setRedisDbIndex(int redisDbIndex) {
+        this.redisDbIndex = redisDbIndex;
+    }
+
     // -------------------- start --------------------
 
     private volatile boolean toStop = false;
@@ -113,7 +118,7 @@ public class XxlCacheFactory {
         if (!CacheTypeEnum.REDIS.getType().equals(l2Provider)) {
             throw new RuntimeException("xxl-cache l2 cache provider invalid, l2Provider="+l2Provider);
         }
-        l2CacheManager = new RedisManager(serializer, nodes, user, password);
+        l2CacheManager = new RedisManager(serializer, nodes, user, password,redisDbIndex);
         l2CacheManager.start();
 
         // broadcast, l1 > l2 > l1
@@ -174,13 +179,14 @@ public class XxlCacheFactory {
             public void onMessage(byte[] channel, byte[] message) {
 
                 // deserialize message
-                CacheBroadcastMessage broadcastMessage = SerializerTypeEnum.JAVA.getSerializer().deserialize(message);
+                final RedisCache redisCache = (RedisCache) XxlCacheFactory.getInstance().getL2CacheManager().getCache();
+                CacheBroadcastMessage broadcastMessage = (CacheBroadcastMessage)redisCache.deserialize(message);
 
                 // refresh by key
                 String finalKey = CacheUtil.generateKey(broadcastMessage.getCategory(), broadcastMessage.getKey());
 
                 // load l2
-                CacheValue l2CacheValue = XxlCacheFactory.getInstance().getL2CacheManager().getCache().get(finalKey);
+                CacheValue l2CacheValue = redisCache.get(finalKey);
                 l2CacheValue = l2CacheValue!=null?l2CacheValue:new CacheValue(null);
 
                 // fill l1

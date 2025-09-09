@@ -42,7 +42,12 @@
             <artifactId>jedis</artifactId>
             <version>${jedis.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.fory</groupId>
+            <artifactId>fory-core</artifactId>
+            <version>0.12.2</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- junit -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

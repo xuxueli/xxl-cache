@@ -3,10 +3,12 @@ package com.xxl.cache.core.redis;
 import com.xxl.cache.core.cache.Cache;
 import com.xxl.cache.core.cache.CacheValue;
 import com.xxl.cache.core.serialize.Serializer;
-import com.xxl.cache.core.serialize.SerializerTypeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import redis.clients.jedis.*;
+import redis.clients.jedis.BinaryJedisPubSub;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.JedisPool;
 
 import java.nio.charset.StandardCharsets;
 
@@ -21,10 +23,17 @@ public class RedisCache implements Cache {
     private final JedisPool jedisPool;
     private final JedisCluster jedisCluster;
     private final Serializer serializer;
+
+
+
     public RedisCache(JedisPool jedisPool, JedisCluster jedisCluster, Serializer serializer) {
         this.jedisPool = jedisPool;
         this.jedisCluster = jedisCluster;
         this.serializer = serializer;
+    }
+
+    public Object deserialize(byte[] bytes) {
+        return serializer.deserialize(bytes);
     }
 
     @Override
@@ -137,7 +146,7 @@ public class RedisCache implements Cache {
      */
     public void publish(String channel, Object message) {
         // serialize message
-        byte[] messageBytes = SerializerTypeEnum.JAVA.getSerializer().serialize(message);
+        byte[] messageBytes = serializer.serialize(message);
 
         // invoke
         if (jedisCluster!=null) {

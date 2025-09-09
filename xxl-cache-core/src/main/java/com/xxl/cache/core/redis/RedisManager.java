@@ -3,6 +3,7 @@ package com.xxl.cache.core.redis;
 import com.xxl.cache.core.cache.Cache;
 import com.xxl.cache.core.serialize.Serializer;
 import com.xxl.cache.core.serialize.SerializerTypeEnum;
+import com.xxl.cache.core.serialize.impl.JavaSerializer;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,15 +24,15 @@ public class RedisManager {
     private String nodes;
     private String user;
     private String password;
-
-    private Serializer serializer = SerializerTypeEnum.JAVA.getSerializer();
+    private int dbIndex;
+    private Serializer serializer = new JavaSerializer();
     private Set<HostAndPort> clusterNodes = new HashSet<>();
     private int connectionTimeout = 2000;
     private int soTimeout = 2000;
     private int maxAttempts = 3;
 
 
-    public RedisManager(String serializerType, String nodes, String user, String password) {
+    public RedisManager(String serializerType, String nodes, String user, String password,int dbIndex) {
         this.serializerType = serializerType;
         this.nodes = nodes;
         if (user!=null && !user.trim().isEmpty()) {
@@ -40,11 +41,11 @@ public class RedisManager {
         if (password!=null && !password.trim().isEmpty()) {
             this.password = password;
         }
-
+        this.dbIndex = dbIndex;
         // parse
         SerializerTypeEnum serializerTypeEnum = SerializerTypeEnum.match(this.serializerType);
         if (serializerTypeEnum != null) {
-            serializer = serializerTypeEnum.getSerializer();
+            serializer = SerializerTypeEnum.initSerializer(serializerTypeEnum);
         }
         if (nodes!=null && !nodes.trim().isEmpty()) {
             for (String node : nodes.split(",")) {
@@ -83,6 +84,7 @@ public class RedisManager {
                         .connectionTimeoutMillis(connectionTimeout)
                         .user(user)
                         .password(password)
+                        .database(dbIndex)
                         .build();
                 jedisCluster = new JedisCluster(clusterNodes, clientConfig, maxAttempts, poolConfig);
                 logger.info(">>>>>>>>>>> xxl-cache, RedisManager (JedisCluster) initialized successfully.");
@@ -99,6 +101,7 @@ public class RedisManager {
                         .connectionTimeoutMillis(connectionTimeout)
                         .user(user)
                         .password(password)
+                        .database(dbIndex)
                         .build();
 
                 jedisPool = new JedisPool(poolConfig, clusterNodes.stream().findFirst().get(), clientConfig);
