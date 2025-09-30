@@ -23,6 +23,7 @@ public class RedisManager {
     private String nodes;
     private String user;
     private String password;
+    private int database;
 
     private Serializer serializer = SerializerTypeEnum.JAVA.getSerializer();
     private Set<HostAndPort> clusterNodes = new HashSet<>();
@@ -31,7 +32,7 @@ public class RedisManager {
     private int maxAttempts = 3;
 
 
-    public RedisManager(String serializerType, String nodes, String user, String password) {
+    public RedisManager(String serializerType, String nodes, String user, String password, int database) {
         this.serializerType = serializerType;
         this.nodes = nodes;
         if (user!=null && !user.trim().isEmpty()) {
@@ -40,6 +41,7 @@ public class RedisManager {
         if (password!=null && !password.trim().isEmpty()) {
             this.password = password;
         }
+        this.database = database;
 
         // parse
         SerializerTypeEnum serializerTypeEnum = SerializerTypeEnum.match(this.serializerType);
@@ -83,6 +85,7 @@ public class RedisManager {
                         .connectionTimeoutMillis(connectionTimeout)
                         .user(user)
                         .password(password)
+                        .database(database)
                         .build();
                 jedisCluster = new JedisCluster(clusterNodes, clientConfig, maxAttempts, poolConfig);
                 logger.info(">>>>>>>>>>> xxl-cache, RedisManager (JedisCluster) initialized successfully.");
@@ -99,6 +102,7 @@ public class RedisManager {
                         .connectionTimeoutMillis(connectionTimeout)
                         .user(user)
                         .password(password)
+                        .database(database)
                         .build();
 
                 jedisPool = new JedisPool(poolConfig, clusterNodes.stream().findFirst().get(), clientConfig);
