@@ -52,9 +52,10 @@ public class CaffeineCache implements Cache {
     public Boolean exists(String key) {
         //boolean exists = cache.getIfPresent(key) != null;
         CacheValue cacheValue = get(key);
-        Boolean exists = cacheValue==null ?null: (cacheValue.getValue()!=null && cacheValue.isValid());
-
-        return exists;
+        if (cacheValue == null) {
+            return null;    // may be not sync from l2 -> l1
+        }
+        return cacheValue.getValue() != null && cacheValue.isValid();   // actually know exists or not
     }
 
     /*@Override

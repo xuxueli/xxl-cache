@@ -85,8 +85,11 @@ public class XxlCacheHelper {
         /**
          * set cache
          *
-         * @param key
-         * @param value
+         *  1、set to l1 and l2 cache
+         *  2、broadcast to all other l1 nodes， sync from l2 cache
+         *
+         * @param key key
+         * @param value value
          */
         public void set(String key, Object value) {
             String finalKey = CacheUtil.generateKey(category, key);
@@ -107,8 +110,11 @@ public class XxlCacheHelper {
         /**
          * get cache
          *
-         * @param key
-         * @return
+         *  1、if l1 cache hit, return l1 cache
+         *  2、if l1 cache not hit, sync l2 cache -> l1 cache; write none l1 cache if l2 not exist
+         *
+         * @param key key
+         * @return value
          */
         public <T> T get(String key) {
             String finalKey = CacheUtil.generateKey(category, key);
@@ -144,7 +150,11 @@ public class XxlCacheHelper {
         /**
          * del
          *
-         * @param key
+         *  1、del l1 cache
+         *  2、del l2 cache
+         *  3、broadcast to all other l1 nodes， sync from l2 cache
+         *
+         * @param key key
          */
         public void del(String key) {
             String finalKey = CacheUtil.generateKey(category, key);
@@ -164,24 +174,25 @@ public class XxlCacheHelper {
         /**
          * exists
          *
-         * @param key
-         * @return
+         * @param key key
+         * @return true if exists, false if not exists
          */
         public boolean exists(String key) {
             String finalKey = CacheUtil.generateKey(category, key);
 
             // l1 cache
-            Boolean l1value = XxlCacheFactory.getInstance().getL1CacheManager().getCache(category).exists(finalKey);
-            if (l1value == null) {
+            Boolean l1Exists = XxlCacheFactory.getInstance().getL1CacheManager().getCache(category).exists(finalKey);
 
+            // unknown, sync from l2
+            if (l1Exists == null) {
                 // fill l1 from l2
                 get(key);
+
+                // recheck L1 after fill
+                l1Exists = XxlCacheFactory.getInstance().getL1CacheManager().getCache(category).exists(finalKey);
             }
 
-            // l1 cache
-            l1value = XxlCacheFactory.getInstance().getL1CacheManager().getCache(category).exists(finalKey);
-
-            return l1value;
+            return l1Exists!=null && l1Exists;
         }
 
     }
