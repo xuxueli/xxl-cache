@@ -6,10 +6,13 @@ import com.xxl.cache.core.cache.CacheTypeEnum;
 import com.xxl.cache.core.cache.CacheValue;
 import com.xxl.cache.core.util.CacheUtil;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CacheManagerTest {
+    private static final Logger logger = LoggerFactory.getLogger(CacheManagerTest.class);
 
     @Test
     public void testCacheManagerCRUD() {
@@ -27,6 +30,7 @@ public class CacheManagerTest {
 
         // 获取值并验证
         CacheValue retrievedValue = cache.get(key);
+        logger.info("value1: {}", retrievedValue);
         assertNotNull(retrievedValue);
         assertEquals("Alice", retrievedValue.getValue());
 
@@ -35,12 +39,9 @@ public class CacheManagerTest {
 
         // 删除键并验证
         cache.del(key);
+        logger.info("value2: {}", retrievedValue);
         // 缓存不存在，返回的是 null
         assertNull(cache.exists(key));
-
-        // 清空缓存并验证
-        //cache.clear();
-        //assertEquals(0, cache.size());
     }
 
 }
