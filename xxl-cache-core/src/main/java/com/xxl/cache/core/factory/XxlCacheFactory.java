@@ -180,17 +180,23 @@ public class XxlCacheFactory {
 
                 // deserialize message
                 CacheBroadcastMessage broadcastMessage = SerializerTypeEnum.JAVA.getSerializer().deserialize(message);
-
-                // refresh by key
+                // build key
                 String finalKey = CacheUtil.generateKey(broadcastMessage.getCategory(), broadcastMessage.getKey());
 
-                // load l2
+                // load from l2
                 CacheValue l2CacheValue = XxlCacheFactory.getInstance().getL2CacheManager().getCache().get(finalKey);
-                l2CacheValue = l2CacheValue!=null?l2CacheValue:new CacheValue(null);
 
-                // fill l1
-                XxlCacheFactory.getInstance().getL1CacheManager().getCache(broadcastMessage.getCategory()).set(finalKey, l2CacheValue);
-                logger.debug(">>>>>>>>>>> xxl-cache, broadcast set l1-cache, key: {}, value: {}", finalKey, l2CacheValue);
+                // refresh l1: delete and lazy-init
+                boolean lazyRefresh = true;
+                if (lazyRefresh) {
+                    XxlCacheFactory.getInstance().getL1CacheManager().getCache(broadcastMessage.getCategory()).del(finalKey);
+                    logger.debug(">>>>>>>>>>> xxl-cache, broadcast del l1-cache, key: {}", finalKey);
+                } else {
+                    // refresh l1: write l2 -> l1
+                    l2CacheValue = l2CacheValue!=null?l2CacheValue:new CacheValue(null);        // l1-cache, none-value
+                    XxlCacheFactory.getInstance().getL1CacheManager().getCache(broadcastMessage.getCategory()).set(finalKey, l2CacheValue);
+                    logger.debug(">>>>>>>>>>> xxl-cache, broadcast set l1-cache, key: {}, value: {}", finalKey, l2CacheValue);
+                }
             }
 
             @Override

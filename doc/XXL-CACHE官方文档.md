@@ -228,9 +228,10 @@ XXL-CACHE 定位多级缓存框架，高效组合本地缓存和分布式缓存(
 
 ### v1.4.1 Release Notes[2025-12-20]
 - 1、【新增】合并PR-46；L2缓存Redis支持指定设置数据库；
-- 2、【优化】合并PR-43；缓存exists逻辑优化，优化业务语义并确保L2数据同步L1后再检查状态，避免潜在自动拆箱NPE问题；
-- 3、【优化】合并PR-41；CacheManager，使用computeIfAbsent替代双重检查锁；
-- 4、【升级】项目部分依赖升级，如 jedis、caffeine；
+- 2、【优化】合并PR-43；缓存exists逻辑调整，优化L2数据同步L1时序，并避免潜在自动拆箱NPE问题；
+- 3、【优化】缓存变更广播逻辑调整，改为懒加载方式初始化L2变更数据，规避broadcast与set操作时序问题；
+- 4、【优化】合并PR-41；CacheManager，使用computeIfAbsent替代双重检查锁；
+- 5、【升级】项目部分依赖升级，如 jedis、caffeine；
 
 ### TODO LIST
 - 1、缓存监控：L1、L2缓存命中率，L1缓存容量、内容占用等；

@@ -36,7 +36,6 @@ public class XxlCacheSampleFrameless {
          */
         userCache.set(key, "jack333");
         System.out.println("set key= " + key);
-        //TimeUnit.MILLISECONDS.sleep(10);
 
         /**
          * 4、缓存读：按照 L1 -> L2 顺序依次读取缓存，如果L1存在缓存则返回，否则读取L2缓存并同步L1；
