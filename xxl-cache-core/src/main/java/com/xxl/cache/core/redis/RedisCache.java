@@ -100,7 +100,7 @@ public class RedisCache implements Cache {
     }
 
     @Override
-    public Boolean exists(String key) {
+    public boolean exists(String key) {
         if (jedisCluster!=null) {
             try {
                 return jedisCluster.exists(key.getBytes(StandardCharsets.UTF_8));

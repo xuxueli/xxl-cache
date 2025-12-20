@@ -37,7 +37,7 @@ public interface Cache {
      * @param
      * @return
      */
-    Boolean exists(String key);
+    boolean exists(String key);
 
    /* *//**
      *
