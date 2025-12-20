@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class CacheValue implements Serializable {
     private static final long serialVersionUID = 42L;
 
-    private static final long NONE_EXPIRATION_PERIOD = 1000L * 60 * 60 * 24 * 365 * 99;
+    private static final long NONE_EXPIRATION_PERIOD = 1000L * 60 * 60 * 24 * 365 * 99; // 99 years
 
     /**
      * cache value

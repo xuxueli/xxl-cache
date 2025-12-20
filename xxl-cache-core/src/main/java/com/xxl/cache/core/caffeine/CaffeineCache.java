@@ -39,8 +39,7 @@ public class CaffeineCache implements Cache {
 
     @Override
     public CacheValue get(String key) {
-        CacheValue cacheValue = cache.getIfPresent(key);
-        return cacheValue;
+        return cache.getIfPresent(key);
     }
 
     @Override

@@ -29,20 +29,20 @@ public class XxlCacheSampleFrameless {
          * 2、缓存删：按照 L1 -> L2 顺序依次删缓存，同时借助内部广播机制更新全局L1节点缓存；
          */
         userCache.del(key);
-        String value = userCache.get(key);
-        System.out.println("value = " + value);
+        System.out.println("del key= " + key);
 
         /**
          * 3、缓存写：按照 L1 -> L2 顺序依次写缓存，同时借助内部广播机制更新全局L1节点缓存；
          */
         userCache.set(key, "jack333");
+        System.out.println("set key= " + key);
+        //TimeUnit.MILLISECONDS.sleep(10);
 
         /**
          * 4、缓存读：按照 L1 -> L2 顺序依次读取缓存，如果L1存在缓存则返回，否则读取L2缓存并同步L1；
          */
-        value = userCache.get(key);
-        System.out.println("value = " + value);
-
+        String value = userCache.get(key);
+        System.out.println("get value = " + value);
         TimeUnit.SECONDS.sleep(300);
 
         // stop

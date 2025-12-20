@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.*;
 
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,8 +25,8 @@ public class RedisManager {
     private String user;
     private String password;
     private int database = 0;
-    private int connectionTimeout = 2000;
-    private int soTimeout = 2000;
+    private int clientTimeout = 2000;
+    private int poolTimeout = 2000;
     private int maxAttempts = 3;
 
     public RedisManager(String serializerType, String nodes, String user, String password, Integer database) {
@@ -79,12 +80,15 @@ public class RedisManager {
         // build config
         JedisClientConfig clientConfig = DefaultJedisClientConfig
                 .builder()
-                .timeoutMillis(soTimeout)
-                .connectionTimeoutMillis(connectionTimeout)
+                .timeoutMillis(clientTimeout)
                 .user(user)
                 .password(password)
                 .database(database)
                 .build();
+
+        // build poolConfig
+        ConnectionPoolConfig poolConfig = new ConnectionPoolConfig();
+        poolConfig.setMaxWait(Duration.ofMillis(poolTimeout));        // get pool timeout
 
         // build jedisClient
         if (clusterNodes.size() > 1) {
@@ -93,7 +97,7 @@ public class RedisManager {
                         .builder()
                         .nodes(clusterNodes)                            // cluster node
                         .maxAttempts(maxAttempts)                       // maxAttempts
-                        .poolConfig(new ConnectionPoolConfig())         // pool config
+                        .poolConfig(poolConfig)         // pool config
                         .clientConfig(clientConfig)
                         .build();
 
@@ -107,7 +111,7 @@ public class RedisManager {
                 jedisClient = RedisClient
                         .builder()
                         .hostAndPort(clusterNodes.stream().findFirst().get())   // host and port
-                        .poolConfig(new ConnectionPoolConfig())                 // pool config
+                        .poolConfig(poolConfig)                 // pool config
                         .clientConfig(clientConfig)                             // client config, such as: timeout、password、database
                         .build();
                 logger.info(">>>>>>>>>>> xxl-cache, RedisManager (RedisClient) initialized successfully.");
