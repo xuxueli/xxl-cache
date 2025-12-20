@@ -28,7 +28,7 @@ public class XxlCacheConf {
     @Value("${xxl.cache.l2.password}")
     private String password;
     @Value("${xxl.cache.l2.database}")
-    private int database;
+    private Integer database;
 
     @Bean(initMethod = "start", destroyMethod = "stop")
     public XxlCacheFactory xxlCacheFactory() {

@@ -19,35 +19,22 @@ import java.util.Set;
 public class RedisManager {
     private static Logger logger = LoggerFactory.getLogger(RedisManager.class);
 
-    private String serializerType;
-    private String nodes;
-    private String user;
-    private String password;
-    private int database;
-
     private Serializer serializer = SerializerTypeEnum.JAVA.getSerializer();
     private Set<HostAndPort> clusterNodes = new HashSet<>();
+    private String user;
+    private String password;
+    private int database = 0;
     private int connectionTimeout = 2000;
     private int soTimeout = 2000;
     private int maxAttempts = 3;
 
-
-    public RedisManager(String serializerType, String nodes, String user, String password, int database) {
-        this.serializerType = serializerType;
-        this.nodes = nodes;
-        if (user!=null && !user.trim().isEmpty()) {
-            this.user = user;
-        }
-        if (password!=null && !password.trim().isEmpty()) {
-            this.password = password;
-        }
-        this.database = database;
-
-        // parse
-        SerializerTypeEnum serializerTypeEnum = SerializerTypeEnum.match(this.serializerType);
+    public RedisManager(String serializerType, String nodes, String user, String password, Integer database) {
+        // parse serializer
+        SerializerTypeEnum serializerTypeEnum = SerializerTypeEnum.match(serializerType);
         if (serializerTypeEnum != null) {
             serializer = serializerTypeEnum.getSerializer();
         }
+        // parse clusterNodes
         if (nodes!=null && !nodes.trim().isEmpty()) {
             for (String node : nodes.split(",")) {
                 String[] parts = node.split(":");
@@ -57,6 +44,18 @@ public class RedisManager {
                     clusterNodes.add(new HostAndPort(host, port));
                 }
             }
+        }
+        // parse user
+        if (user!=null && !user.trim().isEmpty()) {
+            this.user = user.trim();
+        }
+        // parse password
+        if (password!=null && !password.trim().isEmpty()) {
+            this.password = password.trim();
+        }
+        // parse database
+        if (database!=null && database>0) {
+            this.database = database;
         }
     }
 

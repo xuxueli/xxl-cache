@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class CacheManager {
 
-    private volatile ConcurrentMap<String, Cache> cacheMap = new ConcurrentHashMap<String, Cache>();
+    private volatile ConcurrentMap<String, Cache> cacheMap = new ConcurrentHashMap<>();
     private volatile CacheTypeEnum cacheType = CacheTypeEnum.CAFFEINE;
     private int maxSize = 10000;                // default max size
     private long expireAfterWrite = 60 * 10;    // default expire, by second

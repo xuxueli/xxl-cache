@@ -12,7 +12,7 @@ public class RedisManagerTest {
     @Test
     public void testRedisCRUD() {
         String nodes = "127.0.0.1:6379";
-        RedisManager l2CacheManager = new RedisManager(null, nodes, null, null, 0);
+        RedisManager l2CacheManager = new RedisManager(null, nodes, null, null, null);
         l2CacheManager.start();
 
         Cache cache = l2CacheManager.getCache();

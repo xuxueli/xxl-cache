@@ -43,7 +43,7 @@ public class XxlCacheFactory {
     private String nodes;
     private String user;
     private String password;
-    private int database = 0;
+    private Integer database;
 
     public XxlCacheFactory() {
         // instance
@@ -82,7 +82,7 @@ public class XxlCacheFactory {
         this.password = password;
     }
 
-    public void setDatabase(int database) {
+    public void setDatabase(Integer database) {
         this.database = database;
     }
 
