@@ -43,6 +43,7 @@ public class XxlCacheFactory {
     private String nodes;
     private String user;
     private String password;
+    private int database = 0;
 
     public XxlCacheFactory() {
         // instance
@@ -81,6 +82,10 @@ public class XxlCacheFactory {
         this.password = password;
     }
 
+    public void setDatabase(int database) {
+        this.database = database;
+    }
+
     // -------------------- start --------------------
 
     private volatile boolean toStop = false;
@@ -113,7 +118,7 @@ public class XxlCacheFactory {
         if (!CacheTypeEnum.REDIS.getType().equals(l2Provider)) {
             throw new RuntimeException("xxl-cache l2 cache provider invalid, l2Provider="+l2Provider);
         }
-        l2CacheManager = new RedisManager(serializer, nodes, user, password);
+        l2CacheManager = new RedisManager(serializer, nodes, user, password, database);
         l2CacheManager.start();
 
         // broadcast, l1 > l2 > l1
