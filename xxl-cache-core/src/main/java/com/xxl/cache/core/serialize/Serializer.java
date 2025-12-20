@@ -20,9 +20,10 @@ public abstract class Serializer {
 	 * deserialize
 	 *
 	 * @param bytes
+	 * @param clazz
 	 * @return
 	 * @param <T>
 	 */
-	public abstract <T> T deserialize(byte[] bytes);
+	public abstract <T> T deserialize(byte[] bytes, Class<T> clazz);
 
 }

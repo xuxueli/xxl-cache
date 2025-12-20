@@ -179,7 +179,7 @@ public class XxlCacheFactory {
             public void onMessage(byte[] channel, byte[] message) {
 
                 // deserialize message
-                CacheBroadcastMessage broadcastMessage = SerializerTypeEnum.JAVA.getSerializer().deserialize(message);
+                CacheBroadcastMessage broadcastMessage = l2CacheManager.getSerializer().deserialize(message, CacheBroadcastMessage.class);
 
                 // refresh by key
                 String finalKey = CacheUtil.generateKey(broadcastMessage.getCategory(), broadcastMessage.getKey());

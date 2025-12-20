@@ -145,4 +145,10 @@ public class RedisManager {
         return defaultRedisCache;
     }
 
+
+    // ---------------------- getter/setter ----------------------
+
+    public Serializer getSerializer() {
+        return serializer;
+    }
 }
