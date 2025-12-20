@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class CacheValue implements Serializable {
     private static final long serialVersionUID = 42L;
 
-    private static final long NONE_EXPIRATION_PERIOD = 1000L * 60 * 60 * 24 * 365 * 99;
+    private static final long NONE_EXPIRATION_PERIOD = -1L;
 
     /**
      * cache value
@@ -31,15 +31,18 @@ public class CacheValue implements Serializable {
     }
 
     public CacheValue(Object value) {
-        this.value = value;
-        this.survivalTime = NONE_EXPIRATION_PERIOD;
-        this.expirationTime = System.currentTimeMillis() + this.survivalTime;
+        this(value, NONE_EXPIRATION_PERIOD);
     }
 
     public CacheValue(Object value, long survivalTime) {
         this.value = value;
-        this.survivalTime = survivalTime>0?survivalTime:NONE_EXPIRATION_PERIOD;
-        this.expirationTime = System.currentTimeMillis() + this.survivalTime;
+        if (survivalTime > 0) {
+            this.survivalTime = survivalTime;
+            this.expirationTime = System.currentTimeMillis() + survivalTime;
+        } else {
+            this.survivalTime = NONE_EXPIRATION_PERIOD;
+            this.expirationTime = NONE_EXPIRATION_PERIOD;
+        }
     }
 
     public Object getValue() {
@@ -80,7 +83,7 @@ public class CacheValue implements Serializable {
      * isValid
      */
     public boolean isValid() {
-        return System.currentTimeMillis() < expirationTime;
+        return this.survivalTime == NONE_EXPIRATION_PERIOD || System.currentTimeMillis() < expirationTime;
     }
 
 }
