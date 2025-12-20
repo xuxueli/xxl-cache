@@ -9,6 +9,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * cache manager
  *
+ *  1、cache manager for l1 cache; l2 cache use individual manager like "RedisManager"
+ *
  * @author xuxueli 2025-02-04
  */
 public class CacheManager {
