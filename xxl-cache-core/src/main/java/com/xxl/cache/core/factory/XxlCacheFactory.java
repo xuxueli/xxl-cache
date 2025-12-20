@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  * @author xuxueli 2025-02-03
  */
 public class XxlCacheFactory {
-    private static Logger logger = LoggerFactory.getLogger(XxlCacheFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(XxlCacheFactory.class);
 
     // ---------------------- instance ----------------------
     private static XxlCacheFactory xxlConfFactory;
