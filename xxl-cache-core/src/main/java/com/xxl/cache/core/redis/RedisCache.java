@@ -16,105 +16,68 @@ import java.nio.charset.StandardCharsets;
  * @author xuxueli 2025-02-03
  */
 public class RedisCache implements Cache {
-    private static Logger logger = LoggerFactory.getLogger(RedisCache.class);
+    private static final Logger logger = LoggerFactory.getLogger(RedisCache.class);
 
-    private final JedisPool jedisPool;
-    private final JedisCluster jedisCluster;
+    private final UnifiedJedis jedisClient;
     private final Serializer serializer;
-    public RedisCache(JedisPool jedisPool, JedisCluster jedisCluster, Serializer serializer) {
-        this.jedisPool = jedisPool;
-        this.jedisCluster = jedisCluster;
+    public RedisCache(UnifiedJedis jedisClient, Serializer serializer) {
+        this.jedisClient = jedisClient;
         this.serializer = serializer;
     }
 
     @Override
     public void set(String key, CacheValue cacheValue) {
-        if (jedisCluster!=null) {
-            try {
-                byte[] valueBytes = serializer.serialize(cacheValue);
-                if (cacheValue.getSurvivalTime() < 0) {
-                    jedisCluster.set(key.getBytes(StandardCharsets.UTF_8), valueBytes);
-                } else {
-                    jedisCluster.psetex(key.getBytes(StandardCharsets.UTF_8), cacheValue.getSurvivalTime(), valueBytes);
-                }
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
+        try {
+            // serialize value
+            byte[] valueBytes = serializer.serialize(cacheValue);
+
+            // set value
+            if (cacheValue.getSurvivalTime() < 0) {
+                // set value, and never expire
+                jedisClient.set(key.getBytes(StandardCharsets.UTF_8), valueBytes);
+            } else {
+                // set value, with survivalTime
+                jedisClient.psetex(key.getBytes(StandardCharsets.UTF_8), cacheValue.getSurvivalTime(), valueBytes);
             }
-        } else {
-            try (Jedis jedis = jedisPool.getResource()) {
-                byte[] valueBytes = serializer.serialize(cacheValue);
-                if (cacheValue.getSurvivalTime() < 0) {
-                    jedis.set(key.getBytes(StandardCharsets.UTF_8), valueBytes);
-                } else {
-                    jedis.psetex(key.getBytes(StandardCharsets.UTF_8), cacheValue.getSurvivalTime(), valueBytes);
-                }
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
         }
     }
 
     @Override
     public CacheValue get(String key) {
-        if (jedisCluster!=null) {
-            try {
-                byte[] valueBytes = jedisCluster.get(key.getBytes(StandardCharsets.UTF_8));
-                if (valueBytes == null) {
-                    return null;
-                }
-
-                return serializer.deserialize(valueBytes);
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
+        try {
+            // get
+            byte[] valueBytes = jedisClient.get(key.getBytes(StandardCharsets.UTF_8));
+            if (valueBytes == null) {
+                return null;
             }
-        } else {
-            try (Jedis jedis = jedisPool.getResource()) {
-                byte[] valueBytes = jedis.get(key.getBytes(StandardCharsets.UTF_8));
-                if (valueBytes == null) {
-                    return null;
-                }
 
-                return serializer.deserialize(valueBytes);
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }
+            // deserialize value
+            return serializer.deserialize(valueBytes);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return null;
         }
-        return null;
     }
 
     @Override
     public void del(String key) {
-        if (jedisCluster!=null) {
-            try {
-                jedisCluster.del(key.getBytes(StandardCharsets.UTF_8));
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }
-        } else {
-            try (Jedis jedis = jedisPool.getResource()) {
-                jedis.del(key.getBytes(StandardCharsets.UTF_8));
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }
+        try {
+            jedisClient.del(key.getBytes(StandardCharsets.UTF_8));
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
         }
     }
 
     @Override
     public Boolean exists(String key) {
-        if (jedisCluster!=null) {
-            try {
-                return jedisCluster.exists(key.getBytes(StandardCharsets.UTF_8));
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }
-        } else {
-            try (Jedis jedis = jedisPool.getResource()) {
-                return jedis.exists(key.getBytes(StandardCharsets.UTF_8));
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }
+        try {
+            return jedisClient.exists(key.getBytes(StandardCharsets.UTF_8));
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return false;
         }
-        return false;
     }
 
     /*@Override
@@ -132,50 +95,34 @@ public class RedisCache implements Cache {
     /**
      * publish
      *
-     * @param channel
-     * @param message
+     * @param channel channel
+     * @param message message
      */
     public void publish(String channel, Object message) {
         // serialize message
         byte[] messageBytes = SerializerTypeEnum.JAVA.getSerializer().serialize(message);
 
-        // invoke
-        if (jedisCluster!=null) {
-            try {
-                jedisCluster.publish(channel.getBytes(StandardCharsets.UTF_8), messageBytes);
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }
-        } else {
-            try (Jedis jedis = jedisPool.getResource()) {
-                jedis.publish(channel.getBytes(StandardCharsets.UTF_8), messageBytes);
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }
+        // broadcast message to channel
+        try {
+            jedisClient.publish(channel.getBytes(StandardCharsets.UTF_8), messageBytes);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
         }
     }
 
     /**
      * subscribe
      *
-     * @param channel
-     * @param jedisPubSub
+     * @param channel channel
+     * @param jedisPubSub jedisPubSub
      */
     public void subscribe(String channel, BinaryJedisPubSub jedisPubSub) {
-        if (jedisCluster!=null) {
-            try {
-                jedisCluster.subscribe(jedisPubSub, channel.getBytes(StandardCharsets.UTF_8));
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }
-        } else {
-            try (Jedis jedis = jedisPool.getResource()) {
-                jedis.subscribe(jedisPubSub, channel.getBytes(StandardCharsets.UTF_8));
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }
+        try {
+            // subscribe channel
+            jedisClient.subscribe(jedisPubSub, channel.getBytes(StandardCharsets.UTF_8));
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
         }
     }
-
 
 }
