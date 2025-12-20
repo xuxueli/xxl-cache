@@ -24,22 +24,21 @@
 		<maven.compiler.target>17</maven.compiler.target>
 		<maven.test.skip>true</maven.test.skip>
 		<!-- plugin -->
-		<maven-source-plugin.version>3.3.1</maven-source-plugin.version>
-		<maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
+		<maven-source-plugin.version>3.4.0</maven-source-plugin.version>
+		<maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
 		<maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
-		<central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
-
+		<central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
 		<!-- base -->
 		<slf4j-api.version>2.0.17</slf4j-api.version>
-		<junit-jupiter.version>5.13.4</junit-jupiter.version>
+		<junit-jupiter.version>6.0.1</junit-jupiter.version>
 
 		<!-- jedis -->
-		<jedis.version>6.1.0</jedis.version>
+		<jedis.version>7.2.0</jedis.version>
 		<!-- caffeine -->
-		<caffeine.version>3.2.2</caffeine.version>
+		<caffeine.version>3.2.3</caffeine.version>
 
 		<!-- spring-boot (only for sample) -->
-		<spring-boot.version>3.5.4</spring-boot.version>
+		<spring-boot.version>4.0.1</spring-boot.version>
 	</properties>
 
 	<build>
