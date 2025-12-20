@@ -31,9 +31,7 @@ public class CacheValue implements Serializable {
     }
 
     public CacheValue(Object value) {
-        this.value = value;
-        this.survivalTime = NONE_EXPIRATION_PERIOD;
-        this.expirationTime = System.currentTimeMillis() + this.survivalTime;
+        this(value, NONE_EXPIRATION_PERIOD);
     }
 
     public CacheValue(Object value, long survivalTime) {
