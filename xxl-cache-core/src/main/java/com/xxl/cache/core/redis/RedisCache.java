@@ -121,7 +121,8 @@ public class RedisCache implements Cache {
             // subscribe channel
             jedisClient.subscribe(jedisPubSub, channel.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            //logger.error(e.getMessage(), e);
+            throw new RuntimeException("Redis subscribe error ("+ e.getMessage() +") for channel : " + channel, e);
         }
     }
 

@@ -41,10 +41,59 @@
 		<spring-boot.version>4.0.1</spring-boot.version>
 	</properties>
 
-	<build>
-		<plugins>
-		</plugins>
-	</build>
+	<dependencyManagement>
+		<dependencies>
+			<!-- springboot -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-parent</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- slf4j -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>${slf4j-api.version}</version>
+			</dependency>
+
+			<!-- caffeine -->
+			<dependency>
+				<groupId>com.github.ben-manes.caffeine</groupId>
+				<artifactId>caffeine</artifactId>
+				<version>${caffeine.version}</version>
+			</dependency>
+
+			<!-- jedis -->
+			<dependency>
+				<groupId>redis.clients</groupId>
+				<artifactId>jedis</artifactId>
+				<version>${jedis.version}</version>
+			</dependency>
+
+			<!-- junit -->
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-engine</artifactId>
+				<version>${junit-jupiter.version}</version>
+			</dependency>
+
+			<!-- xxl-cache-core -->
+			<dependency>
+				<groupId>com.xuxueli</groupId>
+				<artifactId>xxl-cache-core</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
 
 	<licenses>
 		<license>
@@ -52,7 +101,6 @@
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
-
 	<scm>
 		<tag>master</tag>
 		<url>https://github.com/xuxueli/xxl-cache.git</url>
@@ -67,6 +115,11 @@
 			<url>https://github.com/xuxueli</url>
 		</developer>
 	</developers>
+
+	<build>
+		<plugins>
+		</plugins>
+	</build>
 
 	<profiles>
 

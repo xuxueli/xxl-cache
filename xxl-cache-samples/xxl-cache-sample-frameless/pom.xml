@@ -17,14 +17,12 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j-api.version}</version>
         </dependency>
 
-        <!-- xxl-cache-client -->
+        <!-- xxl-cache-core -->
         <dependency>
             <groupId>com.xuxueli</groupId>
             <artifactId>xxl-cache-core</artifactId>
-            <version>${project.parent.version}</version>
         </dependency>
 
     </dependencies>
