@@ -170,7 +170,7 @@ userCache.del(key);
 
 ### 3.1 架构图
 
-![输入图片说明](https://www.xuxueli.com/doc/static/xxl-cache/images/img_01.png "在这里输入图片标题")
+![输入图片说明](https://www.xuxueli.com/project/static/xxl-cache/images/img_01.png "在这里输入图片标题")
 
 ### 3.2 核心思想
 XXL-CACHE 定位多级缓存框架，高效组合本地缓存和分布式缓存(Redis+Caffeine)，支持“多级缓存、一致性保障、TTL、Category隔离、防穿透”等能力；拥有“高性能、高扩展、灵活易用”等特性，提供高性能多级缓存解决方案；
