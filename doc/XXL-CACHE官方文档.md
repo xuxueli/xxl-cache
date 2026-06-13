@@ -233,8 +233,11 @@ XXL-CACHE 定位多级缓存框架，高效组合本地缓存和分布式缓存(
 - 4、【优化】合并PR-41；CacheManager，使用computeIfAbsent替代双重检查锁；
 - 5、【升级】项目部分依赖升级，如 jedis、caffeine；
 
-### v1.5.1 Release Notes[ING]
-- 1、【升级】升级多项依赖至较新版本；
+### v1.5.1 Release Notes[2026-06-13]
+- 1、【优化】重构项目依赖管理结构，提升项目构建效率、项目可维护性；
+- 2、【升级】升级多项依赖至较新版本；
+
+### v1.5.2 Release Notes[ING]
 
 
 ### TODO LIST
